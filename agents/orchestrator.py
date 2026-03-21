@@ -50,7 +50,7 @@ async def execute_trade(action: str) -> str:
     try:
         # Absolute path to virtualenv binary ensure it's found inside container
         hl_op_bin = "/app/.venv/bin/hl-op"
-        cmd = [hl_op_bin, "trade", action, "xyz:BRENTOIL", "1"]
+        cmd = [hl_op_bin, "trade", action, "XYZ-BRENTOIL/USDC:USDC", "1"]
         
         # Hyperliquid Operator expects WALLET_ADDRESS and PRIVATE_KEY
         # Project variables are HYPERLIQUID_API_WALLET_ADDRESS and HYPERLIQUID_SECRET

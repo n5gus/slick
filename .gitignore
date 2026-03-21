@@ -12,5 +12,3 @@ wheels/
 # Envs
 .env
 
-# Submodules or cloned repos (optional, ignoring for clean root)
-hyperliquid-operator/

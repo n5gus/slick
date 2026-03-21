@@ -23,7 +23,7 @@ async def background_trader():
             liq = await get_liquidity()
             # Status check for logs
             pos_str = "LONG" if current_position == 1 else "SHORT" if current_position == -1 else "FLAT"
-            logger.debug(f"TRADER_STATE: {pos_str} | Price: {liq.mark_price:.2f} | SMA: {liq.sma:.2f} | Signal: {liq.signal}")
+            logger.info(f"TRADER_STATE: {pos_str} | Price: {liq.mark_price:.2f} | SMA: {liq.sma:.2f} | Signal: {liq.signal}")
 
             # 1. Take Profits (Mean Reversion back to SMA)
             if current_position == 1 and liq.mark_price >= liq.sma:

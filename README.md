@@ -47,8 +47,18 @@ The core of Slick is a trio of modular Python agents negotiating via FastAPI.
    uv run uvicorn main:app --reload
    ```
 
+5. **Running the Frontend Dashboard:**
+   The repository includes a Next.js 14 frontend proxying API requests to the Python backend.
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   *Dashboard available at: `http://localhost:3000/dashboard`*
+
 ## Tech Stack
 * Python 3.12+ (uv-based)
 * FastAPI + Pydantic
 * google-genai
 * algo-traders-club/hyperliquid-operator
+* Next.js 14 (App Router) + Tailwind CSS + Framer Motion

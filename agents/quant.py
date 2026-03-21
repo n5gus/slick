@@ -19,6 +19,7 @@ class LiquidityResponse(BaseModel):
     ohlc_5m: str
     bollinger_upper: float
     bollinger_lower: float
+    sma: float
     signal: str
 
 @router.get("/liquidity", response_model=LiquidityResponse)
@@ -76,6 +77,7 @@ async def get_liquidity():
                 ohlc_5m=f"API Connected. EMA: {sma:.2f}",
                 bollinger_upper=upper,
                 bollinger_lower=lower,
+                sma=sma,
                 signal=signal
             )
     except Exception as e:
@@ -90,5 +92,6 @@ async def get_liquidity():
             ohlc_5m="ERROR",
             bollinger_upper=0.0,
             bollinger_lower=0.0,
+            sma=0.0,
             signal="ERROR"
         )

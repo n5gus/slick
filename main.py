@@ -15,19 +15,37 @@ logger = logging.getLogger(__name__)
 
 async def background_trader():
     """Autonomous trading loop for the hackathon judges."""
-    logger.info("Starting autonomous trading loop...")
+    logger.info("Starting autonomous mean-reversion scalping loop...")
+    current_position = 0  # 1 for Long, -1 for Short, 0 for Flat
+
     while True:
         try:
             liq = await get_liquidity()
-            if liq.signal == "BUY":
-                logger.info("AUTO: BUY Signal Detected. Firing Execution.")
-                await execute_trade("buy")
-            elif liq.signal == "SELL":
-                logger.info("AUTO: SELL Signal Detected. Firing Execution.")
+            
+            # 1. Take Profits (Mean Reversion back to SMA)
+            if current_position == 1 and liq.mark_price >= liq.sma:
+                logger.info("TAKE PROFIT: Price reverted to SMA. Closing LONG.")
                 await execute_trade("sell")
+                current_position = 0
+            elif current_position == -1 and liq.mark_price <= liq.sma:
+                logger.info("TAKE PROFIT: Price reverted to SMA. Closing SHORT.")
+                await execute_trade("buy")
+                current_position = 0
+                
+            # 2. Enter New Positions on BB extremes
+            if liq.signal == "BUY" and current_position == 0:
+                logger.info("AUTO: BB Lower Breakout. Firing LONG.")
+                await execute_trade("buy")
+                current_position = 1
+            elif liq.signal == "SELL" and current_position == 0:
+                logger.info("AUTO: BB Upper Breakout. Firing SHORT.")
+                await execute_trade("sell")
+                current_position = -1
+                
         except Exception as e:
             logger.error(f"Auto-trader failed: {e}")
-        await asyncio.sleep(10) # check every 10s
+        
+        await asyncio.sleep(5)  # Accelerated 5s checks for fast TP execution
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

@@ -3,7 +3,6 @@
 import { Header } from '@/components/layout/Header';
 import { AgentStatusBadge } from '@/components/ui/AgentStatusBadge';
 import { TradeFeed } from '@/components/ui/TradeFeed';
-import { MOCK_TRADES, MOCK_AGENT_STATUS, MOCK_MARKET } from '@/lib/mockData';
 import { useEffect, useState } from 'react';
 
 function LiveClock() {
@@ -23,6 +22,57 @@ function LiveClock() {
 }
 
 export default function DashboardPage() {
+  const [marketInfo, setMarketInfo] = useState({
+    symbol: "xyz:BRENTOIL",
+    funding_rate: "0.00%",
+    liquidity_available: 0,
+    liquidity_max: 500000,
+    liquidations: 0,
+    mark_price: 0,
+    bollinger_upper: 0,
+    bollinger_lower: 0
+  });
+
+  const [agentStatus, setAgentStatus] = useState({
+    sentinel: { status: "MONITORING", lastHeadline: "Scanning BB Strategy (Live API)" },
+    quant: { status: "LIVE" },
+    orchestrator: { status: "ARMED", lastScore: "Hold" }
+  });
+
+  const [trades, setTrades] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchRealData = async () => {
+        try {
+            const res = await fetch('http://localhost:8000/quant/liquidity');
+            const data = await res.json();
+            if (data) {
+                setMarketInfo({
+                    symbol: data.symbol,
+                    funding_rate: "0.00%", // Usually fetched separately
+                    liquidity_available: data.available_liquidity_usd,
+                    liquidity_max: 500000,
+                    liquidations: data.recent_liquidations,
+                    mark_price: data.mark_price,
+                    bollinger_upper: data.bollinger_upper,
+                    bollinger_lower: data.bollinger_lower
+                });
+                setAgentStatus({
+                    sentinel: { status: "MONITORING", lastHeadline: `Mark: $${data.mark_price.toFixed(2)} | Action: ${data.signal}` },
+                    quant: { status: "LIVE" },
+                    orchestrator: { status: data.signal !== "HOLD" ? "EXECUTING" : "ARMED", lastScore: data.signal }
+                });
+            }
+        } catch (err) {
+            console.log("Awaiting API Connection...");
+        }
+    };
+
+    fetchRealData();
+    const intervalId = setInterval(fetchRealData, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-bg-primary pb-12">
       <Header />
@@ -37,7 +87,7 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
           <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
-          <span className="text-xs tracking-widest text-positive uppercase font-mono">SWARM ACTIVE — MONITORING</span>
+          <span className="text-xs tracking-widest text-positive uppercase font-mono">SWARM ACTIVE — REAL DATA</span>
         </div>
       </div>
 
@@ -49,52 +99,50 @@ export default function DashboardPage() {
             <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Agent Status</span>
             <AgentStatusBadge 
                 agent="Sentinel" 
-                status={MOCK_AGENT_STATUS.sentinel.status} 
-                detail={MOCK_AGENT_STATUS.sentinel.lastHeadline} 
+                status={agentStatus.sentinel.status} 
+                detail={agentStatus.sentinel.lastHeadline} 
             />
             <AgentStatusBadge 
                 agent="Quant" 
-                status={MOCK_AGENT_STATUS.quant.status} 
+                status={agentStatus.quant.status} 
             />
             <AgentStatusBadge 
                 agent="Orchestrator" 
-                status={MOCK_AGENT_STATUS.orchestrator.status} 
-                score={MOCK_AGENT_STATUS.orchestrator.lastScore}
+                status={agentStatus.orchestrator.status} 
+                score={agentStatus.orchestrator.lastScore as any}
             />
           </div>
 
           {/* Right Column: Market Data */}
           <div className="xl:col-span-8 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">xyz:BRENTOIL Market State</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">xyz:BRENTOIL Market State (Live Bollinger Bands)</span>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
-                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">Symbol</span>
-                    <span className="text-2xl font-mono text-text-primary">{MOCK_MARKET.symbol}</span>
+                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">Mark Price</span>
+                    <span className="text-2xl font-mono text-text-primary">${marketInfo.mark_price.toFixed(2)}</span>
                 </div>
                 <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
-                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">Funding Rate</span>
-                    <span className="text-2xl font-mono text-text-primary">{MOCK_MARKET.funding_rate}</span>
+                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">BB upper</span>
+                    <span className="text-2xl font-mono text-text-primary">${marketInfo.bollinger_upper.toFixed(2)}</span>
+                </div>
+                <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
+                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">BB lower</span>
+                    <span className="text-2xl font-mono text-text-primary">${marketInfo.bollinger_lower.toFixed(2)}</span>
                 </div>
             </div>
 
             <div className="p-6 border border-border bg-bg-surface mt-2 flex flex-col">
                 <div className="flex justify-between items-end mb-4">
-                    <span className="text-xs tracking-widest text-text-muted uppercase">Available Liquidity Depth</span>
-                    <span className="text-xl font-mono text-text-primary">${MOCK_MARKET.liquidity_available.toLocaleString()} <span className="text-sm text-text-secondary">USD</span></span>
+                    <span className="text-xs tracking-widest text-text-muted uppercase">Front-Line Liquidity Depth</span>
+                    <span className="text-xl font-mono text-text-primary">${marketInfo.liquidity_available.toLocaleString()} <span className="text-sm text-text-secondary">USD</span></span>
                 </div>
-                {/* Visual Fill Bar */}
                 <div className="w-full h-2 bg-bg-elevated border border-border overflow-hidden">
                     <div 
                         className="h-full bg-accent" 
-                        style={{ width: `${(MOCK_MARKET.liquidity_available / MOCK_MARKET.liquidity_max) * 100}%` }} 
+                        style={{ width: `${Math.min((marketInfo.liquidity_available / marketInfo.liquidity_max) * 100, 100)}%` }} 
                     />
                 </div>
-            </div>
-
-            <div className="p-6 border border-border bg-bg-surface flex justify-between items-center mt-2">
-                <span className="text-xs tracking-widest text-text-muted uppercase">Recent Liquidations</span>
-                <span className="text-xl font-mono text-negative">${MOCK_MARKET.liquidations.toLocaleString()}</span>
             </div>
 
           </div>
@@ -103,7 +151,7 @@ export default function DashboardPage() {
         {/* Bottom Trade Feed */}
         <div className="mt-8">
             <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">Signal & Execution Log</span>
-            <TradeFeed trades={MOCK_TRADES} />
+            <TradeFeed trades={trades} />
         </div>
       </main>
     </div>

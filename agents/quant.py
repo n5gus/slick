@@ -89,8 +89,20 @@ async def get_liquidity():
             user_state_req = {"type": "clearinghouseState", "user": wallet_address}
             user_state_resp = await client.post("https://api.hyperliquid.xyz/info", json=user_state_req)
             user_state = user_state_resp.json()
-            
-            account_value = float(user_state.get("marginSummary", {}).get("accountValue", 0.0))
+
+            # Perps cross-margin balance
+            perp_value = float(user_state.get("marginSummary", {}).get("accountValue", 0.0))
+
+            # Spot balance (funds not yet transferred to perps show up here)
+            spot_req = {"type": "spotClearinghouseState", "user": wallet_address}
+            spot_resp = await client.post("https://api.hyperliquid.xyz/info", json=spot_req)
+            spot_state = spot_resp.json()
+            spot_usdc = sum(
+                float(b.get("total", 0.0))
+                for b in spot_state.get("balances", [])
+                if b.get("coin") == "USDC"
+            )
+            account_value = perp_value + spot_usdc
             
             # Extract positions
             raw_positions = user_state.get("assetPositions", [])

@@ -109,7 +109,13 @@ docker compose up --build -d
 ```
 
 3. **Accessing:**
-The dashboard is served via nginx on the droplet and is live at [https://slicktrader.xyz](https://slicktrader.xyz) (domain registered 2026-03-21).
+The dashboard is served via nginx on the droplet and is live at [https://slicktrader.xyz/dashboard](https://slicktrader.xyz/dashboard).
+
+## Verified Performance & On-Chain Proof
+Every trade executed by the swarm is recorded on the Hyperliquid L1.
+- **Trader Address**: `0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf`
+- **Dashboad Metrics**: Real-time Win Rate, Equity, Total Fills, and Open Positions.
+- **Verification**: [Hyperliquid Search](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
 
 ## Tech Stack
 * Python 3.12+ (uv-based)

@@ -12,8 +12,8 @@ export default function LandingPage() {
 
   const toggleMute = () => {
     if (videoRef.current) {
-        videoRef.current.muted = !isMuted;
-        setIsMuted(!isMuted);
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
   };
   const agents = [
@@ -27,54 +27,54 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-border w-full">
         {/* Video background */}
         <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            src="/slick-bg.mp4"
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/slick-bg.mp4"
         />
 
         {/* Audio Toggle Button */}
-        <button 
-            onClick={toggleMute}
-            className="absolute bottom-6 right-8 z-20 p-3 bg-bg-elevated/80 border border-border text-text-primary hover:bg-bg-surface transition-colors rounded-none outline-none focus:ring-1 focus:ring-accent"
-            aria-label={isMuted ? "Unmute video" : "Mute video"}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-6 right-8 z-20 p-3 bg-bg-elevated/80 border border-border text-text-primary hover:bg-bg-surface transition-colors rounded-none outline-none focus:ring-1 focus:ring-accent"
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
         >
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
-        
+
         {/* Dark overlay so text stays readable */}
         <div className="absolute inset-0 bg-[#05050A]/70" />
-        
+
         {/* Optional: cyan vignette edge glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#05050A_100%)]" />
 
         {/* Your hero content sits above */}
         <div className="relative z-10 flex flex-col justify-center items-start px-8 max-w-5xl mx-auto w-full">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — BRENTOIL PERPETUALS</span>
-            <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
-                The News Breaks.<br />
-                We're Already In.
-            </h1>
-            <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
-                Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged BRENTOIL positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
-            </p>
-            
-            <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="px-8 py-3 bg-accent text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity drop-shadow-[var(--glow-cyan)]">
-                    Launch Dashboard
-                </Link>
-                <Link href="https://github.com/algo-traders-club/slick" className="px-8 py-3 bg-transparent border border-border text-text-primary text-xs font-medium tracking-widest uppercase hover:bg-bg-elevated transition-colors">
-                    View on GitHub
-                </Link>
-            </div>
+          <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — BRENTOIL PERPETUALS</span>
+          <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
+            The News Breaks.<br />
+            We're Already In.
+          </h1>
+          <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
+            Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged BRENTOIL positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard" className="px-8 py-3 bg-accent text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity drop-shadow-[var(--glow-cyan)]">
+              Launch Dashboard
+            </Link>
+            <Link href="https://github.com/algo-traders-club/slick" className="px-8 py-3 bg-transparent border border-border text-text-primary text-xs font-medium tracking-widest uppercase hover:bg-bg-elevated transition-colors">
+              View on GitHub
+            </Link>
+          </div>
         </div>
       </section>
 

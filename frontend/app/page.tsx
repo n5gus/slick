@@ -3,8 +3,19 @@
 import { Header } from '@/components/layout/Header';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useState, useRef } from 'react';
+import { Volume2, VolumeX } from 'lucide-react';
 
 export default function LandingPage() {
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+        videoRef.current.muted = !isMuted;
+        setIsMuted(!isMuted);
+    }
+  };
   const agents = [
     { name: 'Sentinel', role: 'Visual news scraper via Antigravity Browser Engine', status: 'MONITORING' },
     { name: 'Quant', role: 'Dominates Hyperliquid chart DOM & order book micro-structure', status: 'LIVE' },
@@ -21,6 +32,7 @@ export default function LandingPage() {
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-border w-full">
         {/* Video background */}
         <video
+            ref={videoRef}
             autoPlay
             muted
             loop
@@ -28,6 +40,15 @@ export default function LandingPage() {
             className="absolute inset-0 w-full h-full object-cover"
             src="/slick-bg.mp4"
         />
+
+        {/* Audio Toggle Button */}
+        <button 
+            onClick={toggleMute}
+            className="absolute bottom-6 right-8 z-20 p-3 bg-bg-elevated/80 border border-border text-text-primary hover:bg-bg-surface transition-colors rounded-none outline-none focus:ring-1 focus:ring-accent"
+            aria-label={isMuted ? "Unmute video" : "Mute video"}
+        >
+            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
         
         {/* Dark overlay so text stays readable */}
         <div className="absolute inset-0 bg-[#05050A]/70" />

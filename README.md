@@ -25,9 +25,11 @@ graph TD
     Gemini["✨ Gemini 3.1 Pro (Multimodal Engine)"]:::ai
     HL_CLI["⚙️ hyperliquid-operator CLI"]:::ext
     HL_DEX[("⛓️ Hyperliquid L1 (xyz:BRENTOIL)")]:::ext
+    DB[("🗄️ PostgreSQL + TimescaleDB")]:::ext
 
     Browser -- "Visual Scrapes (Breaking News)" --> Sentinel
     Sentinel -- "A2A POST /tasks/send (Artifact)" --> Orchestrator
+    Orchestrator -- "Persists OHLC & Context" --> DB
     
     HL_DEX -. "Real-time Orderbook" .-> HL_CLI
     HL_CLI -- "Raw Market Data" --> Quant
@@ -111,7 +113,8 @@ The dashboard is served via nginx on the droplet and is live at [https://slicktr
 
 ## Tech Stack
 * Python 3.12+ (uv-based)
-* FastAPI + Pydantic
+* FastAPI + Pydantic + asyncpg
+* Local PostgreSQL + TimescaleDB Extension
 * google-genai
 * algo-traders-club/hyperliquid-operator
 * Next.js 14 (App Router) + Tailwind CSS + Framer Motion

@@ -18,25 +18,44 @@ export default function LandingPage() {
       <Header />
       
       {/* Hero Section */}
-      <main className="flex-1 flex flex-col justify-center items-start px-8 py-24 max-w-5xl mx-auto w-full">
-        <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">MANBEARBULL CAPITAL</span>
-        <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
-          Geopolitical Alpha.<br />
-          On-Chain Execution.
-        </h1>
-        <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
-          An autonomous agent swarm trading Brent Crude Oil perpetuals on Hyperliquid — before traditional institutions open their terminals.
-        </p>
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden border-b border-border w-full">
+        {/* Video background */}
+        <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            src="/slick-bg.mp4"
+        />
         
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="px-8 py-3 bg-accent text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity">
-            Launch Dashboard
-          </Link>
-          <Link href="https://github.com/algo-traders-club/slick" className="px-8 py-3 bg-transparent border border-border text-text-primary text-xs font-medium tracking-widest uppercase hover:bg-bg-elevated transition-colors">
-            View on GitHub
-          </Link>
+        {/* Dark overlay so text stays readable */}
+        <div className="absolute inset-0 bg-[#05050A]/70" />
+        
+        {/* Optional: cyan vignette edge glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#05050A_100%)]" />
+
+        {/* Your hero content sits above */}
+        <div className="relative z-10 flex flex-col justify-center items-start px-8 max-w-5xl mx-auto w-full">
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEARBULL CAPITAL</span>
+            <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
+                Geopolitical Alpha.<br />
+                On-Chain Execution.
+            </h1>
+            <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
+                An autonomous agent swarm trading Brent Crude Oil perpetuals on Hyperliquid — before traditional institutions open their terminals.
+            </p>
+            
+            <div className="flex items-center gap-4">
+                <Link href="/dashboard" className="px-8 py-3 bg-accent text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity drop-shadow-[var(--glow-cyan)]">
+                    Launch Dashboard
+                </Link>
+                <Link href="https://github.com/algo-traders-club/slick" className="px-8 py-3 bg-transparent border border-border text-text-primary text-xs font-medium tracking-widest uppercase hover:bg-bg-elevated transition-colors">
+                    View on GitHub
+                </Link>
+            </div>
         </div>
-      </main>
+      </section>
 
       {/* Architecture Section */}
       <section className="px-8 py-24 bg-bg-surface border-t border-border w-full">

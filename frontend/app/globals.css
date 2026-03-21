@@ -16,17 +16,31 @@
 
 @layer base {
   :root {
+    /* Brand */
     --bg-primary: #05050A;
     --bg-surface: #16161C;
-    --bg-elevated: #1C1C24;
-    --border: #2D2D3B;
+    --bg-elevated: #1E1E26;
+    --border: #2A2A35;
+
+    /* Text */
     --text-primary: #F4F4F5;
-    --text-secondary: #A1A1AA;
-    --text-muted: #626275;
+    --text-secondary: #8888A0;
+    --text-muted: #44445A;
+
+    /* Accents */
+    --accent-cyan: #00F3FF;
+    --accent-magenta: #F900FF;
     --accent: #00F3FF;
-    --positive: #00F3FF;
-    --negative: #F900FF;
-    --warning: #F900FF;
+
+    /* Semantic */
+    --positive: #00F3FF;      /* cyan = go = live = executed */
+    --negative: #F900FF;      /* magenta = alert = warning */
+    --warning: #F59E0B;
+
+    /* Glow effects */
+    --glow-cyan: 0 0 20px rgba(0, 243, 255, 0.4);
+    --glow-magenta: 0 0 20px rgba(249, 0, 255, 0.4);
+    --glow-text: 0 0 30px rgba(0, 243, 255, 0.6);
   }
 }
 

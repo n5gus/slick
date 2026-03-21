@@ -9,7 +9,7 @@ export function Header() {
       <nav className="flex items-center gap-6 text-sm tracking-widest text-text-secondary uppercase">
         <Link href="/" className="hover:text-accent transition-colors">Architecture</Link>
         <Link href="/dashboard" className="hover:text-accent transition-colors">Dashboard</Link>
-        <Link href="https://github.com" target="_blank" className="hover:text-accent transition-colors">GitHub</Link>
+        <Link href="https://github.com/algo-traders-club/slick" target="_blank" className="hover:text-accent transition-colors">GitHub</Link>
       </nav>
     </header>
   );

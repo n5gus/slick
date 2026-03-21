@@ -12,7 +12,7 @@ fully automated, 24/7, with no human in the loop.
 
 Traditional oil futures (NYMEX) close on weekends. Geopolitical conflict does not.
 When news breaks at 2am Sunday, institutions can't act until Monday open. Hyperliquid's 
-xyz:BRENTOIL contract trades continuously — Slick exploits this window.
+[xyz:BRENTOIL](https://app.hyperliquid.xyz/trade/xyz:BRENTOIL) contract trades continuously — Slick exploits this window.
 
 ### Dual-Signal Architecture
 

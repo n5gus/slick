@@ -117,6 +117,11 @@ Every trade executed by the swarm is recorded on the Hyperliquid L1.
 - **Dashboad Metrics**: Real-time Win Rate, Equity, Total Fills, and Open Positions.
 - **Verification**: [Hyperliquid Search](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
 
+## Community & Open Source
+Slick is an open-source project dedicated to the **Algo Traders Club** community. We believe in the power of collaborative, agentic trading.
+- **Join the Club**: [AlgoTradersClub.com](https://AlgoTradersClub.com)
+- **License**: MIT License (Algo Traders Club LLC)
+
 ## Tech Stack
 * Python 3.12+ (uv-based)
 * FastAPI + Pydantic + asyncpg

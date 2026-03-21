@@ -253,6 +253,36 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Community & Open Source Section */}
+      <section className="px-8 py-24 bg-bg-primary w-full border-t border-border">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-xs tracking-[0.2em] text-accent-magenta uppercase block mb-6 font-mono">Open Source Commitment</span>
+          <h2 className="text-4xl md:text-5xl font-light text-text-primary tracking-tight mb-8">
+            Built for the <span className="text-accent-cyan">Algo Traders Club</span> Community.
+          </h2>
+          <p className="text-lg text-text-secondary font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+            Slick is more than a tool—it's a contribution to the collaborative future of agentic trading. 
+            We are proud to open-source this swarm under the MIT License for the Algo Traders Club LLC.
+          </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <a 
+              href="https://AlgoTradersClub.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-10 py-4 bg-accent-cyan text-bg-primary font-mono text-sm tracking-widest uppercase hover:bg-white transition-all duration-300"
+            >
+              Join the Club
+            </a>
+            <a 
+              href="https://github.com/algo-traders-club/slick" 
+              className="px-10 py-4 border border-border text-text-primary font-mono text-sm tracking-widest uppercase hover:border-accent-magenta transition-all duration-300"
+            >
+              View Source
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Tech Stack Section */}
       <section className="px-8 py-20 bg-bg-surface border-t border-border w-full">
         <div className="max-w-5xl mx-auto w-full">

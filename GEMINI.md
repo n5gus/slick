@@ -11,6 +11,8 @@ fully automated, 24/7, with no human in the loop.
 
 ## Why This Exists
 
+Slick is an open-source project dedicated to the **Algo Traders Club** (AlgoTradersClub.com). We believe in democratizing institutional-grade agentic trading tools.
+
 Traditional oil futures (NYMEX) close on weekends. Geopolitical conflict does not.
 When news breaks at 2am Sunday, institutions can't act until Monday open. Hyperliquid's 
 [xyz:BRENTOIL](https://app.hyperliquid.xyz/trade/xyz:BRENTOIL) contract trades continuously — Slick exploits this window.

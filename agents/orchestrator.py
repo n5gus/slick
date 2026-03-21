@@ -100,7 +100,7 @@ Score 0.00 – 0.49: Noise. Political rhetoric, unconfirmed reports, or unrelate
 """
         # Call Google Gen AI client directly
         response = client.models.generate_content(
-            model="gemini-1.5-pro",
+            model="gemini-2.5-pro",
             contents=prompt
         )
         # Parse score

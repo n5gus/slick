@@ -26,9 +26,9 @@ export default function DashboardPage() {
     liquidity_available: 148500,
     liquidity_max: 500000,
     liquidations: 12400,
-    mark_price: 74.82,
-    bollinger_upper: 75.44,
-    bollinger_lower: 74.21
+    mark_price: 104.77,
+    bollinger_upper: 105.12,
+    bollinger_lower: 104.42
   });
 
   const [agentStatus, setAgentStatus] = useState({
@@ -39,13 +39,13 @@ export default function DashboardPage() {
 
   const [logs, setLogs] = useState<TradeLog[]>([
     { timestamp: '09:14:32', headline: 'Iran IRGC vessels shadow tanker in Strait of Hormuz', action: 'EXECUTE' },
-    { timestamp: '09:09:17', headline: 'Tick: $74.82 [U: 75.44 | L: 74.21]', action: 'HOLD' },
+    { timestamp: '09:09:17', headline: 'Tick: $104.77 [U: 105.12 | L: 104.42]', action: 'HOLD' },
     { timestamp: '09:04:01', headline: 'Saudi Aramco reports pipeline pressure anomaly near Abqaiq', action: 'EXECUTE' },
-    { timestamp: '08:59:45', headline: 'Tick: $74.65 [U: 75.38 | L: 74.10]', action: 'HOLD' },
+    { timestamp: '08:59:45', headline: 'Tick: $104.65 [U: 105.08 | L: 104.30]', action: 'HOLD' },
     { timestamp: '08:54:28', headline: 'OPEC+ emergency session called — Vienna, 48hr notice', action: 'HOLD' },
-    { timestamp: '08:49:12', headline: 'Tick: $74.51 [U: 75.29 | L: 74.04]', action: 'HOLD' },
+    { timestamp: '08:49:12', headline: 'Tick: $104.51 [U: 104.95 | L: 104.14]', action: 'HOLD' },
     { timestamp: '08:44:03', headline: 'Israeli cabinet convenes unscheduled security meeting', action: 'HOLD' },
-    { timestamp: '08:38:55', headline: 'Tick: $74.33 [U: 75.21 | L: 73.98]', action: 'HOLD' },
+    { timestamp: '08:38:55', headline: 'Tick: $104.33 [U: 104.81 | L: 103.98]', action: 'HOLD' },
   ]);
 
   useEffect(() => {

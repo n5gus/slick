@@ -29,7 +29,7 @@ async def get_liquidity():
             # 1. Get recent candles for Bollinger Bands
             req_body = {
                 "type": "candleSnapshot", 
-                "req": {"coin": "BRENTOIL", "interval": "15m", "endTime": int(time.time() * 1000)}
+                "req": {"coin": "BRENTOIL", "interval": "1m", "endTime": int(time.time() * 1000)}
             }
             resp = await client.post("https://api.hyperliquid.xyz/info", json=req_body)
             resp.raise_for_status()
@@ -46,8 +46,9 @@ async def get_liquidity():
 
             sma = statistics.mean(closes)
             std = statistics.stdev(closes) if len(closes) > 1 else 0.0
-            upper = sma + (2 * std)
-            lower = sma - (2 * std)
+            # HACKATHON TUNE: 1 standard dev on the 1m chart ensures we fire trades frequently to show live execution
+            upper = sma + (1.0 * std)
+            lower = sma - (1.0 * std)
 
             # Define Signal logic
             if mark_price < lower:

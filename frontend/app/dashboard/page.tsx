@@ -2,7 +2,7 @@
 
 import { Header } from '@/components/layout/Header';
 import { AgentStatusBadge } from '@/components/ui/AgentStatusBadge';
-import { TradeFeed } from '@/components/ui/TradeFeed';
+import { TradeFeed, TradeLog } from '@/components/ui/TradeFeed';
 import { useEffect, useState } from 'react';
 
 function LiveClock() {
@@ -10,8 +10,7 @@ function LiveClock() {
   
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      setTime(now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC');
+      setTime(new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC');
     };
     updateTime();
     const int = setInterval(updateTime, 1000);
@@ -24,7 +23,6 @@ function LiveClock() {
 export default function DashboardPage() {
   const [marketInfo, setMarketInfo] = useState({
     symbol: "xyz:BRENTOIL",
-    funding_rate: "0.00%",
     liquidity_available: 0,
     liquidity_max: 500000,
     liquidations: 0,
@@ -34,12 +32,12 @@ export default function DashboardPage() {
   });
 
   const [agentStatus, setAgentStatus] = useState({
-    sentinel: { status: "MONITORING", lastHeadline: "Scanning BB Strategy (Live API)" },
+    sentinel: { status: "MONITORING", lastHeadline: "Scanning BB Strategy (1m TF / 1 Sigma)" },
     quant: { status: "LIVE" },
     orchestrator: { status: "ARMED", lastScore: "Hold" }
   });
 
-  const [trades, setTrades] = useState<any[]>([]);
+  const [logs, setLogs] = useState<TradeLog[]>([]);
 
   useEffect(() => {
     const fetchRealData = async () => {
@@ -49,7 +47,6 @@ export default function DashboardPage() {
             if (data) {
                 setMarketInfo({
                     symbol: data.symbol,
-                    funding_rate: "0.00%", // Usually fetched separately
                     liquidity_available: data.available_liquidity_usd,
                     liquidity_max: 500000,
                     liquidations: data.recent_liquidations,
@@ -57,10 +54,21 @@ export default function DashboardPage() {
                     bollinger_upper: data.bollinger_upper,
                     bollinger_lower: data.bollinger_lower
                 });
+                
                 setAgentStatus({
-                    sentinel: { status: "MONITORING", lastHeadline: `Mark: $${data.mark_price.toFixed(2)} | Action: ${data.signal}` },
+                    sentinel: { status: "MONITORING", lastHeadline: `Mark: $${data.mark_price.toFixed(2)} | EMA: ${data.ohlc_5m}` },
                     quant: { status: "LIVE" },
                     orchestrator: { status: data.signal !== "HOLD" ? "EXECUTING" : "ARMED", lastScore: data.signal }
+                });
+
+                // Add to log stream
+                setLogs(prev => {
+                    const newLog = {
+                        timestamp: new Date().toLocaleTimeString(),
+                        headline: `Tick: $${data.mark_price.toFixed(2)} [U: ${data.bollinger_upper.toFixed(2)} | L: ${data.bollinger_lower.toFixed(2)}]`,
+                        action: data.signal
+                    };
+                    return [newLog, ...prev].slice(0, 50); // keep last 50
                 });
             }
         } catch (err) {
@@ -69,7 +77,7 @@ export default function DashboardPage() {
     };
 
     fetchRealData();
-    const intervalId = setInterval(fetchRealData, 5000);
+    const intervalId = setInterval(fetchRealData, 5000); // 5 sec pings
     return () => clearInterval(intervalId);
   }, []);
 
@@ -77,81 +85,47 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col bg-bg-primary pb-12">
       <Header />
       
-      {/* Top Bar */}
-      <div className="border-b border-border bg-bg-surface px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="border-b border-border bg-[#05050A] px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[#00ffcc]">
         <div className="flex items-center gap-6">
-          <span className="text-xs font-mono tracking-widest uppercase text-text-muted">
-            SLICK / <span className="text-text-primary">LIVE OPS</span>
+          <span className="text-xs font-mono tracking-widest uppercase">
+            MATRIX / <span className="text-white">LIVE TRADING</span>
           </span>
           <LiveClock />
         </div>
-        <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
-          <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
-          <span className="text-xs tracking-widest text-positive uppercase font-mono">SWARM ACTIVE — REAL DATA</span>
+        <div className="flex items-center gap-2 border border-[#00ffcc]/30 px-3 py-1 bg-[#00ffcc]/10">
+          <div className="w-2 h-2 rounded-full bg-[#00ffcc] animate-ping" />
+          <span className="text-xs tracking-widest uppercase font-mono">AUTONOMOUS SWARM ONLINE</span>
         </div>
       </div>
 
       <main className="flex-1 max-w-screen-2xl mx-auto w-full px-8 py-8">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-6">
-          
-          {/* Left Column: Agents */}
-          <div className="xl:col-span-4 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Agent Status</span>
-            <AgentStatusBadge 
-                agent="Sentinel" 
-                status={agentStatus.sentinel.status} 
-                detail={agentStatus.sentinel.lastHeadline} 
-            />
-            <AgentStatusBadge 
-                agent="Quant" 
-                status={agentStatus.quant.status} 
-            />
-            <AgentStatusBadge 
-                agent="Orchestrator" 
-                status={agentStatus.orchestrator.status} 
-                detail={`Signal: ${agentStatus.orchestrator.lastScore}`}
-            />
-          </div>
-
-          {/* Right Column: Market Data */}
-          <div className="xl:col-span-8 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">xyz:BRENTOIL Market State (Live Bollinger Bands)</span>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
-                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">Mark Price</span>
-                    <span className="text-2xl font-mono text-text-primary">${marketInfo.mark_price.toFixed(2)}</span>
-                </div>
-                <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
-                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">BB upper</span>
-                    <span className="text-2xl font-mono text-text-primary">${marketInfo.bollinger_upper.toFixed(2)}</span>
-                </div>
-                <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
-                    <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block">BB lower</span>
-                    <span className="text-2xl font-mono text-text-primary">${marketInfo.bollinger_lower.toFixed(2)}</span>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
+                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">Mark Price</span>
+                <span className="text-3xl font-mono text-white">${marketInfo.mark_price.toFixed(2)}</span>
             </div>
-
-            <div className="p-6 border border-border bg-bg-surface mt-2 flex flex-col">
-                <div className="flex justify-between items-end mb-4">
-                    <span className="text-xs tracking-widest text-text-muted uppercase">Front-Line Liquidity Depth</span>
-                    <span className="text-xl font-mono text-text-primary">${marketInfo.liquidity_available.toLocaleString()} <span className="text-sm text-text-secondary">USD</span></span>
-                </div>
-                <div className="w-full h-2 bg-bg-elevated border border-border overflow-hidden">
-                    <div 
-                        className="h-full bg-accent" 
-                        style={{ width: `${Math.min((marketInfo.liquidity_available / marketInfo.liquidity_max) * 100, 100)}%` }} 
-                    />
-                </div>
+            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
+                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">BB Upper (1σ)</span>
+                <span className="text-3xl font-mono text-white">${marketInfo.bollinger_upper.toFixed(2)}</span>
             </div>
-
-          </div>
+            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
+                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">BB Lower (1σ)</span>
+                <span className="text-3xl font-mono text-white">${marketInfo.bollinger_lower.toFixed(2)}</span>
+            </div>
         </div>
 
-        {/* Bottom Trade Feed */}
-        <div className="mt-8">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">Signal & Execution Log</span>
-            <TradeFeed trades={trades} />
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
+          <div className="xl:col-span-4 flex flex-col gap-6">
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Swarm Telemetry</span>
+            <AgentStatusBadge agent="Sentinel" status={agentStatus.sentinel.status} detail={agentStatus.sentinel.lastHeadline} />
+            <AgentStatusBadge agent="Quant" status={agentStatus.quant.status} />
+            <AgentStatusBadge agent="Orchestrator" status={agentStatus.orchestrator.status} detail={`Signal: ${agentStatus.orchestrator.lastScore}`} />
+          </div>
+
+          <div className="xl:col-span-8 flex flex-col gap-6">
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Terminal Execution Log</span>
+            <TradeFeed logs={logs} />
+          </div>
         </div>
       </main>
     </div>

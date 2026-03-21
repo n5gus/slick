@@ -27,10 +27,15 @@ async def get_liquidity():
     logger.info("Quant agent querying Hyperliquid Info API for xyz:BRENTOIL")
     try:
         async with httpx.AsyncClient() as client:
-            # 1. Get recent candles for Bollinger Bands
+            # 1. Get recent 1m candles for Bollinger Bands
             req_body = {
                 "type": "candleSnapshot", 
-                "req": {"coin": "BRENTOIL", "interval": "1m", "endTime": int(time.time() * 1000)}
+                "req": {
+                    "coin": "xyz:BRENTOIL", 
+                    "interval": "1m", 
+                    "startTime": int((time.time() - 3600) * 1000), 
+                    "endTime": int(time.time() * 1000)
+                }
             }
             resp = await client.post("https://api.hyperliquid.xyz/info", json=req_body)
             resp.raise_for_status()
@@ -38,16 +43,16 @@ async def get_liquidity():
             
             # 2. Extract closes and calculate Bollinger Bands
             if not isinstance(candles, list) or len(candles) < 20:
-                logger.warning("Not enough candles returned, using default values.")
-                closes = [100.0] * 20
-                mark_price = 100.0
+                logger.warning(f"Not enough candles returned ({len(candles) if isinstance(candles, list) else 'NONE'}), using default values.")
+                closes = [104.77] * 20
+                mark_price = 104.77
             else:
                 closes = [float(c["c"]) for c in candles[-20:]]
                 mark_price = float(candles[-1]["c"])
 
             sma = statistics.mean(closes)
             std = statistics.stdev(closes) if len(closes) > 1 else 0.0
-            # HACKATHON TUNE: 1 standard dev on the 1m chart ensures we fire trades frequently to show live execution
+            # 1.0 standard dev is aggressive but useful for a live demo to show some activity
             upper = sma + (1.0 * std)
             lower = sma - (1.0 * std)
 
@@ -59,8 +64,8 @@ async def get_liquidity():
             else:
                 signal = "HOLD"
 
-            # 3. Get extra context (L2 Book for simple liquidity representation)
-            l2_req = {"type": "l2Book", "coin": "BRENTOIL"}
+            # 3. Get extra context (L2 Book)
+            l2_req = {"type": "l2Book", "coin": "xyz:BRENTOIL"}
             l2_resp = await client.post("https://api.hyperliquid.xyz/info", json=l2_req)
             l2_data = l2_resp.json()
             

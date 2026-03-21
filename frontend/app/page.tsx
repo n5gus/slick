@@ -97,7 +97,7 @@ export default function LandingPage() {
       <section className="px-8 py-24 bg-bg-surface border-t border-border w-full">
         <div className="max-w-5xl mx-auto w-full">
           <div className="mb-12">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-3">Architecture</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-3">Architecture</span>
             <h2 className="text-2xl font-light text-text-primary tracking-tight">The Swarm</h2>
             <p className="text-sm text-text-primary/70 mt-2 max-w-xl font-light">
               Three autonomous agents negotiate over Google&apos;s A2A protocol. No human in the loop.
@@ -117,7 +117,7 @@ export default function LandingPage() {
 
           {/* Flow Diagram */}
           <div className="text-center w-full overflow-hidden border border-border bg-bg-primary p-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-8 block text-left">A2A Signal Pipeline</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase mb-8 block text-left">A2A Signal Pipeline</span>
             <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-mono tracking-widest uppercase text-text-primary">
               {flowSteps.map((step, i) => (
                 <motion.div
@@ -126,7 +126,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className={`${step === '→' ? 'text-text-muted' : ''}`}
+                  className={`${step === '→' ? 'text-text-secondary' : ''}`}
                 >
                   {step}
                 </motion.div>
@@ -143,7 +143,7 @@ export default function LandingPage() {
             
             {/* Left: The narrative */}
             <div>
-              <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-3">The Opportunity</span>
+              <span className="text-xs tracking-widest text-text-secondary uppercase block mb-3">The Opportunity</span>
               <h2 className="text-2xl font-light text-text-primary tracking-tight mb-6">
                 Traditional oil markets close.<br />Conflict does not.
               </h2>
@@ -203,11 +203,41 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Verified Transparency Section */}
+      <section className="px-8 py-20 bg-bg-elevated border-t border-border w-full">
+        <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-10">
+          <div>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-3">Verified Transparency</span>
+            <h2 className="text-2xl font-light text-text-primary tracking-tight mb-4">Real Alpha. Real On-Chain Execution.</h2>
+            <p className="text-sm text-text-primary/70 font-light max-w-xl">
+              Slick is not a simulation. Every trade is executed on-chain via Hyperliquid. 
+              Users can verify every entry, exit, and PnL in real-time.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 min-w-[300px]">
+            <div className="p-4 border border-border bg-bg-primary flex flex-col gap-2">
+              <span className="text-[11px] tracking-widest text-text-secondary uppercase font-mono">Live PnL</span>
+              <span className="text-2xl font-mono text-positive">+$0.81 USD</span>
+            </div>
+            <a 
+              href="https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-4 border border-border bg-bg-primary flex flex-col gap-2 hover:border-accent-cyan transition-colors group"
+            >
+              <span className="text-[11px] tracking-widest text-text-secondary uppercase font-mono group-hover:text-accent-cyan transition-colors">Trader Address</span>
+              <span className="text-xs font-mono text-text-primary truncate">0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf</span>
+              <span className="text-[10px] text-accent-cyan underline">View Trade History →</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Tech Stack Section */}
       <section className="px-8 py-20 bg-bg-surface border-t border-border w-full">
         <div className="max-w-5xl mx-auto w-full">
           <div className="mb-10">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-3">Built With</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-3">Built With</span>
             <h2 className="text-2xl font-light text-text-primary tracking-tight">The Stack</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -220,7 +250,7 @@ export default function LandingPage() {
               { name: 'uv', role: 'Package Manager', tag: 'TOOLING' },
             ].map((tech, i) => (
               <div key={i} className="p-4 border border-border bg-bg-primary flex flex-col gap-2">
-                <span className="text-[9px] tracking-widest text-text-muted uppercase font-mono">{tech.tag}</span>
+                <span className="text-[11px] tracking-widest text-text-secondary uppercase font-mono">{tech.tag}</span>
                 <span className="text-sm font-medium text-text-primary">{tech.name}</span>
                 <span className="text-[11px] text-text-primary/60">{tech.role}</span>
               </div>
@@ -252,7 +282,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-4">Product</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-4">Product</span>
             <div className="flex flex-col gap-2">
               <Link href="/dashboard" className="text-xs text-text-primary/70 hover:text-text-primary transition-colors">Live Dashboard</Link>
               <Link href="https://github.com/algo-traders-club/slick" className="text-xs text-text-primary/70 hover:text-text-primary transition-colors">GitHub Repository</Link>
@@ -261,7 +291,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-4">Architecture</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-4">Architecture</span>
             <div className="flex flex-col gap-2">
               <span className="text-xs text-text-primary/70">Sentinel Agent</span>
               <span className="text-xs text-text-primary/70">Quant Agent</span>
@@ -270,7 +300,7 @@ export default function LandingPage() {
           </div>
 
           <div>
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-4">Hackathon</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-4">Hackathon</span>
             <div className="flex flex-col gap-2">
               <span className="text-xs text-text-primary/70">Google Gemini Hackathon</span>
               <span className="text-xs text-text-primary/70">Miami — 2026</span>
@@ -282,17 +312,17 @@ export default function LandingPage() {
 
         {/* Footer bottom bar */}
         <div className="border-t border-border px-8 py-5 max-w-screen-2xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-3">
-          <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">
+          <span className="text-xs font-mono tracking-widest text-text-secondary uppercase">
             © 2026 ManBearBull Capital — MIT License
           </span>
           <div className="flex items-center gap-6">
-            <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">
+            <span className="text-xs font-mono tracking-widest text-text-secondary uppercase">
               Powered by Gemini 1.5 Pro
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">
+            <span className="text-xs font-mono tracking-widest text-text-secondary uppercase">
               A2A Protocol v0.1
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">
+            <span className="text-xs font-mono tracking-widest text-text-secondary uppercase">
               xyz:BRENTOIL
             </span>
           </div>

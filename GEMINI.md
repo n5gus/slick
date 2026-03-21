@@ -49,6 +49,13 @@ It returns a structured conviction score that directly gates trade execution.
 No score, no trade. The prompt is engineered to function as a quantitative risk model, 
 not a chatbot.
 
+## Live Execution & Performance
+
+Slick is trading live on Hyperliquid. 
+- **Trader Address**: [`0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf`](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
+- **Verified History**: [Hyperliquid Trade History](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
+- **Current PnL**: $0.81 USD (Live since launch)
+
 ## Stack
 - **uv** — package management
 - **FastAPI** — A2A endpoints

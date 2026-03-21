@@ -101,9 +101,20 @@ export default function DashboardPage() {
           </span>
           <LiveClock />
         </div>
-        <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
-          <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
-          <span className="text-xs tracking-widest uppercase font-mono">SWARM ACTIVE — BRENTOIL PERPETUALS</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
+            <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
+            <span className="text-xs tracking-widest uppercase font-mono">SWARM ACTIVE — BRENTOIL PERPETUALS</span>
+          </div>
+          <a 
+            href="https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hidden lg:flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated hover:border-accent-magenta transition-colors group"
+          >
+            <span className="text-xs tracking-widest uppercase font-mono text-text-secondary group-hover:text-accent-magenta transition-colors">TRADER: 0x517C...56Cf</span>
+            <span className="text-xs font-mono text-positive">+$0.81</span>
+          </a>
         </div>
       </div>
 
@@ -111,32 +122,32 @@ export default function DashboardPage() {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-positive rounded-none">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">Mark Price</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-2">Mark Price</span>
             <span className="text-3xl font-mono text-text-primary">
               ${marketInfo.mark_price.toFixed(2)}
             </span>
-            <span className="text-[10px] font-mono text-text-muted mt-2 block">xyz:BRENTOIL PERP</span>
+            <span className="text-xs font-mono text-text-secondary mt-2 block">xyz:BRENTOIL PERP</span>
           </div>
           <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-accent-cyan rounded-none">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">BB Upper Band (1σ)</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-2">BB Upper Band (1σ)</span>
             <span className="text-3xl font-mono text-text-primary">
               ${marketInfo.bollinger_upper.toFixed(2)}
             </span>
-            <span className="text-[10px] font-mono text-text-muted mt-2 block">SHORT SIGNAL ABOVE</span>
+            <span className="text-xs font-mono text-text-secondary mt-2 block">SHORT SIGNAL ABOVE</span>
           </div>
           <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-negative rounded-none">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">BB Lower Band (1σ)</span>
+            <span className="text-xs tracking-widest text-text-secondary uppercase block mb-2">BB Lower Band (1σ)</span>
             <span className="text-3xl font-mono text-text-primary">
               ${marketInfo.bollinger_lower.toFixed(2)}
             </span>
-            <span className="text-[10px] font-mono text-text-muted mt-2 block">LONG SIGNAL BELOW</span>
+            <span className="text-xs font-mono text-text-secondary mt-2 block">LONG SIGNAL BELOW</span>
           </div>
         </div>
 
         {/* Conviction Score Bar */}
         <div className="p-6 border border-border bg-bg-surface mb-6">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-xs tracking-widest text-text-muted uppercase">
+            <span className="text-xs tracking-widest text-text-secondary uppercase">
               Gemini Conviction Score
             </span>
             <span className="font-mono text-lg text-text-primary">
@@ -159,7 +170,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Threshold markers */}
-          <div className="relative w-full flex justify-between text-[10px] font-mono text-text-muted">
+          <div className="relative w-full flex justify-between text-xs font-mono text-text-secondary">
             <span>0.0 NO TRADE</span>
             <span className="absolute left-[85%] -translate-x-1/2 text-positive">0.85 THRESHOLD</span>
             <span>1.0 EXECUTE</span>
@@ -178,7 +189,7 @@ export default function DashboardPage() {
           
           {/* Left: Agent Status */}
           <div className="xl:col-span-4 flex flex-col gap-4">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block border-b border-border pb-2">
+            <span className="text-xs tracking-widest text-text-secondary uppercase block border-b border-border pb-2">
               Agent Status
             </span>
             <AgentStatusBadge 
@@ -200,7 +211,7 @@ export default function DashboardPage() {
 
           {/* Right: A2A Pipeline Visualization */}
           <div className="xl:col-span-8 flex flex-col gap-4">
-            <span className="text-[10px] tracking-widest text-text-muted uppercase block border-b border-border pb-2">
+            <span className="text-xs tracking-widest text-text-secondary uppercase block border-b border-border pb-2">
               A2A Signal Pipeline
             </span>
             
@@ -248,7 +259,7 @@ export default function DashboardPage() {
               ].map((node) => (
                 <div key={node.step} className="flex items-start gap-4">
                   <span 
-                    className="text-[10px] font-mono mt-0.5 shrink-0 w-6"
+                    className="text-xs font-mono mt-0.5 shrink-0 w-6"
                     style={{ color: node.color }}
                   >
                     {node.step}
@@ -256,10 +267,10 @@ export default function DashboardPage() {
                   <div className="flex-1 border-l border-border pl-4">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-mono text-text-primary">{node.from}</span>
-                      <span className="text-text-muted text-xs">→</span>
+                      <span className="text-text-secondary text-xs">→</span>
                       <span className="text-xs font-mono" style={{ color: node.color }}>{node.to}</span>
                     </div>
-                    <p className="text-[10px] text-text-muted tracking-wide">{node.desc}</p>
+                    <p className="text-xs text-text-secondary tracking-wide">{node.desc}</p>
                   </div>
                   <div 
                     className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 animate-pulse"
@@ -273,7 +284,7 @@ export default function DashboardPage() {
 
         {/* Full-width Trade Feed at bottom */}
         <div>
-          <span className="text-[10px] tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">
+          <span className="text-xs tracking-widest text-text-secondary uppercase mb-4 block border-b border-border pb-2">
             Signal & Execution Log — Last 50 Ticks
           </span>
           <TradeFeed logs={logs} />

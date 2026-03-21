@@ -119,7 +119,7 @@ async def execute_trade() -> str:
     try:
         # Running the trade via uv run in the hyperliquid-operator folder
         # We use --dry-run for safety during this hackathon implementation unless requested otherwise
-        cmd = ["uv", "run", "hl-op", "trade", "buy", "BRENTOIL:USDC", "10", "--dry-run", "--json"]
+        cmd = ["uv", "run", "hl-op", "trade", "buy", "xyz:BRENTOIL", "10", "--dry-run", "--json"]
         result = subprocess.run(cmd, cwd="hyperliquid-operator", capture_output=True, text=True)
         return result.stdout
     except Exception as e:

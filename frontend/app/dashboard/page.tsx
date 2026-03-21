@@ -28,7 +28,12 @@ export default function DashboardPage() {
     liquidations: 12400,
     mark_price: 104.77,
     bollinger_upper: 105.12,
-    bollinger_lower: 104.42
+    bollinger_lower: 104.42,
+    account_value: 0,
+    win_rate: 0,
+    total_trades: 0,
+    wallet_age_days: 0,
+    open_positions: [] as any[]
   });
 
   const [agentStatus, setAgentStatus] = useState({
@@ -51,7 +56,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchRealData = async () => {
         try {
-            const res = await fetch('http://localhost:8000/quant/liquidity');
+            const res = await fetch('/api/quant/liquidity');
             const data = await res.json();
             if (data) {
                 setMarketInfo({
@@ -61,7 +66,12 @@ export default function DashboardPage() {
                     liquidations: data.recent_liquidations,
                     mark_price: data.mark_price,
                     bollinger_upper: data.bollinger_upper,
-                    bollinger_lower: data.bollinger_lower
+                    bollinger_lower: data.bollinger_lower,
+                    account_value: data.account_value,
+                    win_rate: data.win_rate,
+                    total_trades: data.total_trades,
+                    wallet_age_days: data.wallet_age_days,
+                    open_positions: data.open_positions
                 });
                 
                 setAgentStatus({
@@ -141,6 +151,88 @@ export default function DashboardPage() {
               ${marketInfo.bollinger_lower.toFixed(2)}
             </span>
             <span className="text-xs font-mono text-text-secondary mt-2 block">LONG SIGNAL BELOW</span>
+          </div>
+        </div>
+
+        {/* Performance Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <div className="p-4 border border-border bg-bg-surface rounded-none">
+            <span className="text-[10px] tracking-widest text-text-secondary uppercase block mb-1">Total Equity</span>
+            <span className="text-xl font-mono text-text-primary">
+              ${marketInfo.account_value.toFixed(2)}
+            </span>
+            <span className="text-[10px] font-mono text-text-secondary mt-1 block">LIVE USDC BALANCE</span>
+          </div>
+          <div className="p-4 border border-border bg-bg-surface rounded-none">
+            <span className="text-[10px] tracking-widest text-text-secondary uppercase block mb-1">Win Rate</span>
+            <span className="text-xl font-mono text-positive">
+              {marketInfo.win_rate.toFixed(1)}%
+            </span>
+            <span className="text-[10px] font-mono text-text-secondary mt-1 block">ON-CHAIN VERIFIED</span>
+          </div>
+          <div className="p-4 border border-border bg-bg-surface rounded-none">
+            <span className="text-[10px] tracking-widest text-text-secondary uppercase block mb-1">Total Fills</span>
+            <span className="text-xl font-mono text-text-primary">
+              {marketInfo.total_trades}
+            </span>
+            <span className="text-[10px] font-mono text-text-secondary mt-1 block">EXECUTED ORDERS</span>
+          </div>
+          <div className="p-4 border border-border bg-bg-surface rounded-none">
+            <span className="text-[10px] tracking-widest text-text-secondary uppercase block mb-1">Wallet Age</span>
+            <span className="text-xl font-mono text-text-primary">
+              {(marketInfo.wallet_age_days / 1).toFixed(0)} DAYS
+            </span>
+            <span className="text-[10px] font-mono text-text-secondary mt-1 block">SINCE ATTESTATION</span>
+          </div>
+        </div>
+
+
+        {/* Open Positions Section */}
+        <div className="mb-8">
+          <span className="text-xs tracking-widest text-text-secondary uppercase mb-4 block border-b border-border pb-2">
+            Open Positions
+          </span>
+          <div className="border border-border bg-bg-surface overflow-hidden">
+            <table className="w-full text-left border-collapse font-mono text-xs">
+              <thead>
+                <tr className="bg-bg-elevated text-text-secondary uppercase tracking-widest border-b border-border">
+                  <th className="px-6 py-3 font-medium">Asset</th>
+                  <th className="px-6 py-3 font-medium">Size</th>
+                  <th className="px-6 py-3 font-medium">Entry</th>
+                  <th className="px-6 py-3 font-medium">Mark</th>
+                  <th className="px-6 py-3 font-medium text-right">Unrealized PnL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {marketInfo.open_positions.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center text-text-secondary italic">
+                      No active positions currently held by the swarm.
+                    </td>
+                  </tr>
+                ) : (
+                  marketInfo.open_positions.map((pos, i) => (
+                    <tr key={i} className="border-b border-border hover:bg-bg-elevated/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <span className="text-text-primary font-bold">{pos.coin}</span>
+                      </td>
+                      <td className={`px-6 py-4 ${pos.size > 0 ? 'text-positive' : 'text-negative'}`}>
+                        {pos.size > 0 ? 'LONG' : 'SHORT'} {Math.abs(pos.size).toFixed(4)}
+                      </td>
+                      <td className="px-6 py-4 text-text-secondary">
+                        ${pos.entry_price.toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-text-secondary">
+                        ${marketInfo.mark_price.toFixed(2)}
+                      </td>
+                      <td className={`px-6 py-4 text-right font-bold ${pos.pnl >= 0 ? 'text-positive' : 'text-negative'}`}>
+                        {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 

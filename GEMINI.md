@@ -51,10 +51,19 @@ not a chatbot.
 
 ## Live Execution & Performance
 
-Slick is trading live on Hyperliquid. 
+Slick is trading live on Hyperliquid with real-time on-chain verification.
 - **Trader Address**: [`0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf`](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
 - **Verified History**: [Hyperliquid Trade History](https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf)
-- **Current PnL**: $0.81 USD (Live since launch)
+- **Real-Time Dashboard**: `slicktrader.xyz/dashboard`
+
+Our dashboard now features live on-chain stats including:
+- **Total Equity**: Live USDC balance monitoring.
+- **Win Rate**: Verified success percentage of closed positions.
+- **Total Fills**: Full history of executed on-chain orders.
+- **Open Positions**: Real-time tracking of active BRENTOIL exposure and PnL.
+- **Wallet Age**: Proof of continuous operation since attestation.
+
+The current live PnL is tracked in real-time on the dashboard via the Hyperliquid Info API.
 
 ## Stack
 - **uv** — package management

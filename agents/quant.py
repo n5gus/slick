@@ -2,12 +2,19 @@ import asyncio
 import logging
 from fastapi import APIRouter
 from pydantic import BaseModel
+from typing import List
 import httpx
 import time
 import statistics
 
 router = APIRouter(prefix="/quant", tags=["Quant"])
 logger = logging.getLogger(__name__)
+
+class PositionInfo(BaseModel):
+    coin: str
+    size: float
+    entry_price: float
+    pnl: float
 
 class LiquidityResponse(BaseModel):
     symbol: str
@@ -21,6 +28,11 @@ class LiquidityResponse(BaseModel):
     bollinger_lower: float
     sma: float
     signal: str
+    account_value: float
+    win_rate: float
+    total_trades: int
+    wallet_age_days: int
+    open_positions: List[PositionInfo]
 
 @router.get("/liquidity", response_model=LiquidityResponse)
 async def get_liquidity():
@@ -72,6 +84,47 @@ async def get_liquidity():
             bids = l2_data.get("levels", [[]])[0]
             available_liquidity = sum([float(b.get("sz", 0)) * float(b.get("px", 0)) for b in bids[:10]]) if bids else 0.0
 
+            # 4. Get User Stats (Account Value, Wins, etc.)
+            wallet_address = "0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf"
+            user_state_req = {"type": "clearinghouseState", "user": wallet_address}
+            user_state_resp = await client.post("https://api.hyperliquid.xyz/info", json=user_state_req)
+            user_state = user_state_resp.json()
+            
+            account_value = float(user_state.get("marginSummary", {}).get("accountValue", 0.0))
+            
+            # Extract positions
+            raw_positions = user_state.get("assetPositions", [])
+            open_positions = []
+            for p in raw_positions:
+                pos = p.get("position", {})
+                size = float(pos.get("szi", 0.0))
+                if abs(size) > 0:
+                    open_positions.append(
+                        PositionInfo(
+                            coin=pos.get("coin", "???"),
+                            size=size,
+                            entry_price=float(pos.get("entryPx", 0.0)),
+                            pnl=float(pos.get("unrealizedPnl", 0.0))
+                        )
+                    )
+            
+            # 5. Get Fills for Win Rate (approximate for demo)
+            fills_req = {"type": "userFills", "user": wallet_address}
+            fills_resp = await client.post("https://api.hyperliquid.xyz/info", json=fills_req)
+            fills = fills_resp.json()
+            
+            total_trades = len(fills)
+            closed_trades = [f for f in fills if float(f.get("closedPnl", 0)) != 0]
+            win_count = sum(1 for f in closed_trades if float(f.get("closedPnl", 0)) > 0)
+            win_rate = (win_count / len(closed_trades) * 100) if closed_trades else 0.0
+            
+            # 6. Wallet age (since first fill)
+            if fills:
+                first_fill_time = min([int(f["time"]) for f in fills])
+                wallet_age_days = int((time.time() - (first_fill_time / 1000)) / 86400)
+            else:
+                wallet_age_days = 0
+
             return LiquidityResponse(
                 symbol="xyz:BRENTOIL",
                 available_liquidity_usd=available_liquidity,
@@ -83,7 +136,12 @@ async def get_liquidity():
                 bollinger_upper=upper,
                 bollinger_lower=lower,
                 sma=sma,
-                signal=signal
+                signal=signal,
+                account_value=account_value,
+                win_rate=win_rate,
+                total_trades=total_trades,
+                wallet_age_days=wallet_age_days,
+                open_positions=open_positions
             )
     except Exception as e:
         logger.error(f"Error fetching liquidity from HL: {e}")
@@ -98,5 +156,10 @@ async def get_liquidity():
             bollinger_upper=0.0,
             bollinger_lower=0.0,
             sma=0.0,
-            signal="ERROR"
+            signal="ERROR",
+            account_value=0.0,
+            win_rate=0.0,
+            total_trades=0,
+            wallet_age_days=0,
+            open_positions=[]
         )

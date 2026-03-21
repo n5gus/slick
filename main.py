@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import asyncio
 from contextlib import asynccontextmanager
@@ -65,6 +66,14 @@ async def lifespan(app: FastAPI):
     logger.info("Swarm shutting down.")
 
 app = FastAPI(title="Project Slick - Hyperliquid A2A Swarm", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Inter-agent communication points
 app.include_router(sentinel_router)

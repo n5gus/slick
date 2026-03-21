@@ -7,6 +7,7 @@ from agents.sentinel import router as sentinel_router
 from agents.quant import router as quant_router
 from agents.orchestrator import router as orchestrator_router
 from config import settings
+from db import init_db_pool, close_db_pool
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,7 +15,9 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Initializing Agentic Swarm: Project Slick")
+    await init_db_pool()
     yield
+    await close_db_pool()
     logger.info("Swarm shutting down.")
 
 app = FastAPI(title="Project Slick - Hyperliquid A2A Swarm", lifespan=lifespan)

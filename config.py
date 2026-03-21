@@ -6,6 +6,11 @@ class Settings(BaseSettings):
     HYPERLIQUID_WALLET: str = ""
     HYPERLIQUID_SECRET: str = ""
 
+    # Supabase & TimescaleDB configuration
+    SUPABASE_URL: str = ""
+    SUPABASE_KEY: str = ""
+    DATABASE_URL: str = ""
+
     # Endpoints if we decouple routing:
     ORCHESTRATOR_URL: str = "http://localhost:8000/orchestrator"
     QUANT_URL: str = "http://localhost:8000/quant"

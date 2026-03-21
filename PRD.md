@@ -16,6 +16,7 @@ However, standard algorithmic trading bots cannot process qualitative, visual ge
 * **Environment & Package Management:** uv (for lightning-fast dependency resolution and isolated virtual environments).
 * **Core Framework:** FastAPI (for lightweight, high-performance A2A endpoints and webhooks).
 * **Execution Layer:** `algo-traders-club/hyperliquid-operator` (wrapping the open-source CLI for order routing, leverage adjustments, and position management).
+* **Data Storage:** Supabase with the TimescaleDB extension (for persisting time-series order book data and OHLC history).
 * **Data Acquisition:** Antigravity Browser Subagent (for bypassing bot-protection and capturing visual DOM artifacts).
 * **Agent Communication:** Google A2A Protocol (`/.well-known/agent.json` discovery and `tasks/send` payloads).
 * **Intelligence:** Gemini 3 Pro (for multimodal sentiment analysis and consensus logic).

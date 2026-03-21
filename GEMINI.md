@@ -14,26 +14,28 @@ Traditional oil futures (NYMEX) close on weekends. Geopolitical conflict does no
 When news breaks at 2am Sunday, institutions can't act until Monday open. Hyperliquid's 
 xyz:BRENTOIL contract trades continuously — Slick exploits this window.
 
-## The A2A Architecture
+### Dual-Signal Architecture
 
-Three specialized agents negotiate over Google's A2A protocol:
+Three specialized agents negotiate over Google's A2A protocol, marrying geopolitical sentiment with live DOM scraped chart data:
 
 | Agent | Role | Technology |
 |---|---|---|
-| **Sentinel** | Visual news scraper | Antigravity Browser Agent |
-| **Quant** | Order book microstructure | hyperliquid-operator CLI |
+| **Sentinel** | Macro Geopolitics Scraper | Antigravity Browser Agent (News/X Pro) |
+| **Quant** | Order book & DOM Chart | hyperliquid-operator + DOM Scraper (OHLC) |
 | **Orchestrator** | Conviction scoring + execution | Gemini 1.5 Pro + FastAPI |
 
 ### Flow
 ```
-[Antigravity Browser] 
-    → captures Reuters/AJZ headline + screenshot
-    → POST /sentinel/trigger
+[Antigravity Browser 1] 
+    → visually scrapes Reuters/X for Geopolitical headline
+[Antigravity Browser 2] 
+    → DOM scrapes Hyperliquid charting for OHLC & Mark Price
+    → GET /quant/liquidity pulls DOM data
+    → POST /sentinel/trigger pushes news payload
         → A2A POST /orchestrator/tasks/send
-            → GET /quant/liquidity
-            → Gemini scores sentiment (0.0 – 1.0)
+            → Gemini scores sentiment + OHLC (0.0 – 1.0)
             → if score > 0.85 AND liquidity > $10k
-                → hl-op trade buy BRENTOIL:USDC
+                → hl-op trade buy xyz:BRENTOIL
 ```
 
 ## Gemini's Role

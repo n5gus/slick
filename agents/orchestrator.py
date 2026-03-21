@@ -70,6 +70,11 @@ Available Liquidity (USD): {liquidity_data.get('available_liquidity_usd')}
 Current Funding Rate: {liquidity_data.get('current_funding_rate')}
 Recent Liquidations (USD): {liquidity_data.get('recent_liquidations')}
 
+### DOM Scraped Chart Data (5m Window)
+Mark Price: {liquidity_data.get('mark_price')}
+Oracle Price: {liquidity_data.get('oracle_price')}
+OHLC: {liquidity_data.get('ohlc_5m')}
+
 ## SCORING RUBRIC
 
 Score 0.90 – 1.00: Imminent supply shock. Direct military action targeting oil infrastructure, 
@@ -84,10 +89,11 @@ Score 0.50 – 0.69: Moderate risk. Diplomatic breakdown, sanctions announcement
 Score 0.00 – 0.49: Noise. Political rhetoric, unconfirmed reports, or unrelated regional news.
 
 ## INSTRUCTIONS
-1. Analyze the headline against the rubric above.
+1. Analyze the global geopolitical breaking news headline alongside the localized DOM scraped OHLC chart data.
 2. Factor in funding rate: a positive funding rate > 0.01 suggests market is already long — reduce score by 0.05.
 3. Factor in liquidity: if available_liquidity_usd < 5000, reduce score by 0.10 (thin market = dangerous slippage).
-4. Return ONLY a raw JSON object with no explanation, no markdown, no preamble.
+4. If the Geopolitical News dictates an explosive event AND the OHLC data shows an active bullish divergence or increasing volume (C > O), increase your conviction.
+5. Return ONLY a raw JSON object with no explanation, no markdown, no preamble.
 
 ## OUTPUT FORMAT
 {{"score": 0.00, "rationale": "one sentence max"}}

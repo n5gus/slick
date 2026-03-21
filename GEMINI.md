@@ -22,7 +22,7 @@ Three specialized agents negotiate over Google's A2A protocol, marrying geopolit
 |---|---|---|
 | **Sentinel** | Macro Geopolitics Scraper | Antigravity Browser Agent (News/X Pro) |
 | **Quant** | Order book & DOM Chart | hyperliquid-operator + DOM Scraper (OHLC) |
-| **Orchestrator** | Conviction scoring + execution | Gemini 2.5 Pro + FastAPI |
+| **Orchestrator** | Conviction scoring + execution | Gemini 3.1 Pro + FastAPI |
 
 ### Flow
 ```
@@ -40,7 +40,7 @@ Three specialized agents negotiate over Google's A2A protocol, marrying geopolit
 
 ## Gemini's Role
 
-Gemini 2.5 Pro is the brain of the operation. It receives:
+Gemini 3.1 Pro is the brain of the operation. It receives:
 - A natural language geopolitical headline (+ optionally a screenshot)
 - Live order book state (liquidity, funding rate, liquidations)
 
@@ -52,7 +52,7 @@ not a chatbot.
 - **uv** — package management
 - **FastAPI** — A2A endpoints
 - **Google A2A Protocol** — agent-to-agent communication
-- **Gemini 2.5 Pro** — multimodal sentiment scoring
+- **Gemini 3.1 Pro** — multimodal sentiment scoring
 - **Antigravity** — visual browser automation
 - **hyperliquid-operator** — trade execution CLI
 

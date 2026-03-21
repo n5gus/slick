@@ -18,7 +18,7 @@ The core of Slick is a trio of modular Python agents negotiating via FastAPI.
 
 ### 3. Orchestrator
 * **Endpoint:** `POST /orchestrator/tasks/send`
-* **Role:** The Execution Brain. Feeds the visual artifact alongside the micro-structure JSON to the Gemini 2.5 Pro multimodal framework.
+* **Role:** The Execution Brain. Feeds the visual artifact alongside the micro-structure JSON to the Gemini 3.1 Pro multimodal framework.
 * **Flow:** Analyzes for "Bullish Sentiment" $> 0.85$. If conditions and structural liquidity intersect, fires a leveraged long trade using the local CLI tools.
 
 ## Development Setup

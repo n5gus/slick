@@ -109,7 +109,7 @@ export default function DashboardPage() {
             <AgentStatusBadge 
                 agent="Orchestrator" 
                 status={agentStatus.orchestrator.status} 
-                score={agentStatus.orchestrator.lastScore as any}
+                detail={`Signal: ${agentStatus.orchestrator.lastScore}`}
             />
           </div>
 

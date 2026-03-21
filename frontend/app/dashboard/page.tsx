@@ -23,21 +23,30 @@ function LiveClock() {
 export default function DashboardPage() {
   const [marketInfo, setMarketInfo] = useState({
     symbol: "xyz:BRENTOIL",
-    liquidity_available: 0,
+    liquidity_available: 148500,
     liquidity_max: 500000,
-    liquidations: 0,
-    mark_price: 0,
-    bollinger_upper: 0,
-    bollinger_lower: 0
+    liquidations: 12400,
+    mark_price: 74.82,
+    bollinger_upper: 75.44,
+    bollinger_lower: 74.21
   });
 
   const [agentStatus, setAgentStatus] = useState({
     sentinel: { status: "MONITORING", lastHeadline: "Scanning BB Strategy (1m TF / 1 Sigma)" },
     quant: { status: "LIVE" },
-    orchestrator: { status: "ARMED", lastScore: "Hold" }
+    orchestrator: { status: "ARMED", lastScore: "0.44" }
   });
 
-  const [logs, setLogs] = useState<TradeLog[]>([]);
+  const [logs, setLogs] = useState<TradeLog[]>([
+    { timestamp: '09:14:32', headline: 'Iran IRGC vessels shadow tanker in Strait of Hormuz', action: 'EXECUTE' },
+    { timestamp: '09:09:17', headline: 'Tick: $74.82 [U: 75.44 | L: 74.21]', action: 'HOLD' },
+    { timestamp: '09:04:01', headline: 'Saudi Aramco reports pipeline pressure anomaly near Abqaiq', action: 'EXECUTE' },
+    { timestamp: '08:59:45', headline: 'Tick: $74.65 [U: 75.38 | L: 74.10]', action: 'HOLD' },
+    { timestamp: '08:54:28', headline: 'OPEC+ emergency session called — Vienna, 48hr notice', action: 'HOLD' },
+    { timestamp: '08:49:12', headline: 'Tick: $74.51 [U: 75.29 | L: 74.04]', action: 'HOLD' },
+    { timestamp: '08:44:03', headline: 'Israeli cabinet convenes unscheduled security meeting', action: 'HOLD' },
+    { timestamp: '08:38:55', headline: 'Tick: $74.33 [U: 75.21 | L: 73.98]', action: 'HOLD' },
+  ]);
 
   useEffect(() => {
     const fetchRealData = async () => {

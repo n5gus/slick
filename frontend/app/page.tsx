@@ -59,16 +59,31 @@ export default function LandingPage() {
         {/* Your hero content sits above */}
         <div className="relative z-10 flex flex-col justify-center items-start px-8 max-w-5xl mx-auto w-full">
           <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — BRENTOIL PERPETUALS</span>
-          <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
+          <h1 
+            className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6"
+            style={{
+              background: 'linear-gradient(95deg, #F4F4F5 0%, #00F3FF 50%, #F900FF 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
             The News Breaks.<br />
-            We're Already In.
+            We&apos;re Already In.
           </h1>
           <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
             Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged BRENTOIL positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
           </p>
 
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="px-8 py-3 bg-accent text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity drop-shadow-[var(--glow-cyan)]">
+            <Link 
+              href="/dashboard" 
+              className="px-8 py-3 text-bg-primary text-xs font-medium tracking-widest uppercase hover:opacity-90 transition-opacity"
+              style={{
+                background: 'linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-magenta) 100%)',
+                boxShadow: '0 0 24px rgba(0, 243, 255, 0.35)'
+              }}
+            >
               Launch Dashboard
             </Link>
             <Link href="https://github.com/algo-traders-club/slick" className="px-8 py-3 bg-transparent border border-border text-text-primary text-xs font-medium tracking-widest uppercase hover:bg-bg-elevated transition-colors">

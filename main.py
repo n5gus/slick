@@ -56,7 +56,9 @@ async def background_trader():
 async def lifespan(app: FastAPI):
     logger.info("Initializing Agentic Swarm: Project Slick")
     await init_db_pool()
+    logger.info("Spawning background trader task...")
     loop_task = asyncio.create_task(background_trader())
+    logger.info("Task spawned.")
     yield
     loop_task.cancel()
     await close_db_pool()

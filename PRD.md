@@ -2,6 +2,7 @@
 
 **Team:** ManBearBull Capital
 **Target Market:** Hyperliquid L1 (xyz:BRENTOIL Perpetual Futures)
+**Live Site:** We are live at `slicktrader.xyz` (domain registered today).
 **Objective:** Deploy an A2A-connected Python agent swarm to autonomously trade oil derivatives by arbitraging real-time Middle East geopolitical sentiment against on-chain order book dynamics.
 
 ## 1. The Problem & Market Opportunity

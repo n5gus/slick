@@ -1,6 +1,7 @@
 # Project Slick — GEMINI.md
 
 > **"Geopolitical alpha. On-chain execution. Before TradFi wakes up."**
+> **We are live at `slicktrader.xyz` (domain registered today).**
 
 ## What This Is
 

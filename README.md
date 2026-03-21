@@ -4,6 +4,8 @@
 
 # Project Slick (Hyperliquid Edition)
 
+> **We are live at `slicktrader.xyz` (domain registered today, 2026-03-21).**
+
 **Project Slick** is an autonomous trading bot built on an A2A-connected Python agent swarm. Its purpose is to arbitrage real-time Middle East geopolitical sentiment (visually scraped using Antigravity) against on-chain [xyz:BRENTOIL](https://app.hyperliquid.xyz/trade/xyz:BRENTOIL) perpetual futures order book dynamics on Hyperliquid L1.
 
 ## The Agentic Swarm Architecture
@@ -77,7 +79,7 @@ docker compose up --build -d
 ```
 
 3. **Accessing:**
-The deployment will automatically expose the institutional dashboard port mapped to port `80` (HTTP). You can access it directly via your Droplet's IPv4 address: `http://<DROPLET_IP>/`.
+The dashboard is served via nginx on the droplet and is live at [https://slicktrader.xyz](https://slicktrader.xyz) (domain registered 2026-03-21).
 
 ## Tech Stack
 * Python 3.12+ (uv-based)

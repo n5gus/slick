@@ -1,5 +1,7 @@
 # SKILL: Geopolitical News Sentinel
 
+> **Note:** We are live at `slicktrader.xyz` (domain registered today).
+
 ## Objective
 Capture breaking Middle East geopolitical headlines from live news sources and return a structured artifact containing the headline text and a base64-encoded screenshot.
 

@@ -13,4 +13,8 @@ dependencies = [
     "pydantic-settings>=2.13.1",
     "python-dotenv>=1.2.2",
     "uvicorn>=0.42.0",
+    "hyperliquid-operator",
 ]
+
+[tool.uv.sources]
+hyperliquid-operator = { path = "./hyperliquid-operator", editable = true }

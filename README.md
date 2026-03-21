@@ -12,6 +12,34 @@
 
 The core of Slick is a trio of modular Python agents negotiating via FastAPI.
 
+```mermaid
+graph TD
+    classDef ext fill:#1e1e2e,stroke:#cba6f7,stroke-width:2px,color:#fff;
+    classDef agent fill:#313244,stroke:#89b4fa,stroke-width:2px,color:#fff;
+    classDef ai fill:#313244,stroke:#a6e3a1,stroke-width:2px,color:#fff;
+
+    Browser["🌐 Antigravity Browser Agent"]:::ext
+    Sentinel["👁️ Sentinel (Macro News Node)"]:::agent
+    Quant["📊 Quant (Micro-Structure Node)"]:::agent
+    Orchestrator["🧠 Orchestrator (Execution Brain)"]:::agent
+    Gemini["✨ Gemini 3.1 Pro (Multimodal Engine)"]:::ai
+    HL_CLI["⚙️ hyperliquid-operator CLI"]:::ext
+    HL_DEX[("⛓️ Hyperliquid L1 (xyz:BRENTOIL)")]:::ext
+
+    Browser -- "Visual Scrapes (Breaking News)" --> Sentinel
+    Sentinel -- "A2A POST /tasks/send (Artifact)" --> Orchestrator
+    
+    HL_DEX -. "Real-time Orderbook" .-> HL_CLI
+    HL_CLI -- "Raw Market Data" --> Quant
+    Quant -- "GET /quant/liquidity (Liquidity JSON)" --> Orchestrator
+    
+    Orchestrator -- "News + Orderbook JSON" --> Gemini
+    Gemini -- "Conviction Score > 0.85" --> Orchestrator
+    
+    Orchestrator -- "Subprocess: operator trade" --> HL_CLI
+    HL_CLI -- "Execute Leveraged Long" --> HL_DEX
+```
+
 ### 1. Sentinel
 * **Endpoint:** `POST /sentinel/trigger`
 * **Role:** The Macro News Node. Triggered by a Browser Subagent that has captured breaking visualizations or text headlines regarding Middle East Geopolitical events.

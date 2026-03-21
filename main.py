@@ -19,9 +19,10 @@ async def background_trader():
     current_position = 0  # 1 for Long, -1 for Short, 0 for Flat
 
     while True:
-        logger.info("TRADER LOOP HEARTBEAT")
+        logger.info("TRADER LOOP HEARTBEAT - PRE-FETCH")
         try:
             liq = await get_liquidity()
+            logger.info("TRADER LOOP HEARTBEAT - POST-FETCH")
             # Status check for logs
             pos_str = "LONG" if current_position == 1 else "SHORT" if current_position == -1 else "FLAT"
             logger.info(f"TRADER_STATE: {pos_str} | Price: {liq.mark_price:.2f} | SMA: {liq.sma:.2f} | Signal: {liq.signal}")

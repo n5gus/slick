@@ -2,7 +2,7 @@ services:
   timescale:
     image: timescale/timescaledb:latest-pg16
     container_name: slick-timescaledb
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: slick-backend
-    restart: unless-stopped
+    restart: always
     env_file:
       - .env
     ports:
@@ -44,7 +44,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: slick-frontend
-    restart: unless-stopped
+    restart: always
     depends_on:
       backend:
         condition: service_healthy

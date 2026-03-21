@@ -1,0 +1,13 @@
+# Project Slick (Hyperliquid Edition)
+Autonomous A2A trading swarm for geopolitical alpha.
+
+## Agents
+- **Sentinel**: Geopolitical news scraper (multimodal artifacts).
+- **Quant**: Hyperliquid L1 order book & structural analyst.
+- **Orchestrator**: Gemini 3.1 Pro powered execution head.
+
+## Entry Points
+- **Dashboard**: https://slicktrader.xyz/dashboard
+- **Backend API**: http://localhost:8000 (Internal)
+- **Quant Data**: `/quant/liquidity` (OHLC, BB, Live Stats)
+- **On-Chain Proof**: https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf

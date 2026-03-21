@@ -1,0 +1,26 @@
+# Project Slick - Full Technical Manifest
+
+## Swarm Architecture
+The swarm operates on a "Conviction-Gated" A2A protocol.
+
+### Nodes:
+- **Sentinel**: Scrapes visual headlines using Antigravity. Pushes artifacts to Orchestrator.
+- **Quant**: Real-time evaluation of xyz:BRENTOIL on Hyperliquid via hyperliquid-operator.
+- **Orchestrator**: Weighs Sentinel artifacts + Quant data using Gemini 3.1 Pro. Validates score > 0.85.
+
+## API Specification
+- `GET /quant/liquidity`: Returns `LiquidityResponse` (Pydantic).
+- `POST /sentinel/trigger`: Accepts `GeopoliticalHeadline`.
+- `POST /orchestrator/tasks/send`: Final A2A negotiation endpoint.
+
+## Key Data Models (Pydantic)
+- `LiquidityResponse`: `symbol`, `mark_price`, `bollinger_upper/lower`, `account_value`, `total_pnl`, `win_rate`, `total_trades`, `wallet_age_days`, `open_positions`.
+- `PositionInfo`: `coin`, `size`, `entry_price`, `pnl`.
+
+## Strategy: Mean-Reversion Scalping
+- **Indicators**: 20-period SMA, 1-standard deviation Bollinger Bands.
+- **Sentiment Threshold**: 0.0 - 1.0 Gemini scoring threshold (minimum 0.85 for execution).
+
+## Verification
+- **Live on-chain proof**: https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf
+- **Dashboard**: https://slicktrader.xyz/dashboard

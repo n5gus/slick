@@ -53,6 +53,10 @@ async def execute_trade(action: str) -> str:
         # Ensure env variables for wallet/secret are passed
         env = os.environ.copy()
         result = subprocess.run(cmd, cwd="/app", capture_output=True, text=True, env=env)
+        if result.returncode == 0:
+            logger.info(f"HL-OP SUCCESS: {result.stdout.strip()}")
+        else:
+            logger.error(f"HL-OP FAILED: {result.stderr.strip()}")
         return result.stdout
     except Exception as e:
         logger.error(f"Execution failed: {e}")

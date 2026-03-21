@@ -21,24 +21,27 @@ async def background_trader():
     while True:
         try:
             liq = await get_liquidity()
-            
+            # Status check for logs
+            pos_str = "LONG" if current_position == 1 else "SHORT" if current_position == -1 else "FLAT"
+            logger.debug(f"TRADER_STATE: {pos_str} | Price: {liq.mark_price:.2f} | SMA: {liq.sma:.2f} | Signal: {liq.signal}")
+
             # 1. Take Profits (Mean Reversion back to SMA)
             if current_position == 1 and liq.mark_price >= liq.sma:
-                logger.info("TAKE PROFIT: Price reverted to SMA. Closing LONG.")
+                logger.info(f"TAKE PROFIT: Price {liq.mark_price:.2f} >= SMA {liq.sma:.2f}. Closing LONG.")
                 await execute_trade("sell")
                 current_position = 0
             elif current_position == -1 and liq.mark_price <= liq.sma:
-                logger.info("TAKE PROFIT: Price reverted to SMA. Closing SHORT.")
+                logger.info(f"TAKE PROFIT: Price {liq.mark_price:.2f} <= SMA {liq.sma:.2f}. Closing SHORT.")
                 await execute_trade("buy")
                 current_position = 0
                 
             # 2. Enter New Positions on BB extremes
             if liq.signal == "BUY" and current_position == 0:
-                logger.info("AUTO: BB Lower Breakout. Firing LONG.")
+                logger.info(f"AUTO: BB Lower Breakout ({liq.mark_price:.2f} < {liq.bollinger_lower:.2f}). Firing LONG.")
                 await execute_trade("buy")
                 current_position = 1
             elif liq.signal == "SELL" and current_position == 0:
-                logger.info("AUTO: BB Upper Breakout. Firing SHORT.")
+                logger.info(f"AUTO: BB Upper Breakout ({liq.mark_price:.2f} > {liq.bollinger_upper:.2f}). Firing SHORT.")
                 await execute_trade("sell")
                 current_position = -1
                 

@@ -1,13 +1,13 @@
 {
   "name": "SLICK Quant",
-  "description": "Hyperliquid microstructure node. Polls the hyperliquid-operator CLI for real-time CL-USDC order book depth, funding rates, and recent liquidation cascades. Exposes structured liquidity data to the Orchestrator.",
+  "description": "Hyperliquid microstructure node. Polls the hyperliquid-operator CLI for real-time xyz:BRENTOIL order book depth, funding rates, and recent liquidation cascades. Exposes structured liquidity data to the Orchestrator.",
   "version": "1.0.0",
   "url": "http://localhost:8000",
   "skills": [
     {
       "id": "get_liquidity",
-      "name": "Get CL-USDC Liquidity",
-      "description": "Returns available liquidity, current funding rate, and recent liquidation volume for the CL-USDC perpetual on Hyperliquid.",
+      "name": "Get xyz:BRENTOIL Liquidity",
+      "description": "Returns available liquidity, current funding rate, and recent liquidation volume for the xyz:BRENTOIL perpetual on Hyperliquid.",
       "inputModes": [],
       "outputModes": ["application/json"]
     }

@@ -4,7 +4,7 @@
 
 ## What This Is
 
-Slick is an autonomous A2A agent swarm that trades WTI Crude Oil perpetual futures on Hyperliquid 
+Slick is an autonomous A2A agent swarm that trades Brent Crude Oil perpetual futures on Hyperliquid 
 by arbitraging real-time Middle East geopolitical sentiment against on-chain order book dynamics — 
 fully automated, 24/7, with no human in the loop.
 
@@ -12,7 +12,7 @@ fully automated, 24/7, with no human in the loop.
 
 Traditional oil futures (NYMEX) close on weekends. Geopolitical conflict does not.
 When news breaks at 2am Sunday, institutions can't act until Monday open. Hyperliquid's 
-CL-USDC contract trades continuously — Slick exploits this window.
+xyz:BRENTOIL contract trades continuously — Slick exploits this window.
 
 ## The A2A Architecture
 
@@ -33,7 +33,7 @@ Three specialized agents negotiate over Google's A2A protocol:
             → GET /quant/liquidity
             → Gemini scores sentiment (0.0 – 1.0)
             → if score > 0.85 AND liquidity > $10k
-                → hl-op trade buy CL/USDC:USDC
+                → hl-op trade buy BRENTOIL:USDC
 ```
 
 ## Gemini's Role

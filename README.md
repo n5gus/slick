@@ -1,6 +1,6 @@
 # Project Slick (Hyperliquid Edition)
 
-**Project Slick** is an autonomous trading bot built on an A2A-connected Python agent swarm. Its purpose is to arbitrage real-time Middle East geopolitical sentiment (visually scraped using Antigravity) against on-chain CL-USDC perpetual futures order book dynamics on Hyperliquid L1.
+**Project Slick** is an autonomous trading bot built on an A2A-connected Python agent swarm. Its purpose is to arbitrage real-time Middle East geopolitical sentiment (visually scraped using Antigravity) against on-chain xyz:BRENTOIL perpetual futures order book dynamics on Hyperliquid L1.
 
 ## The Agentic Swarm Architecture
 
@@ -13,7 +13,7 @@ The core of Slick is a trio of modular Python agents negotiating via FastAPI.
 
 ### 2. Quant
 * **Endpoint:** `GET /quant/liquidity`
-* **Role:** The Micro-Structure Node. Connects via subprocess to `hyperliquid-operator`, evaluating real-time depth for the CL-USDC perpetuals market.
+* **Role:** The Micro-Structure Node. Connects via subprocess to `hyperliquid-operator`, evaluating real-time depth for the xyz:BRENTOIL perpetuals market.
 * **Flow:** Exposes a JSON payload detailing the current structural liquidity and funding rates.
 
 ### 3. Orchestrator

@@ -56,7 +56,7 @@ async def evaluate_with_gemini(sentinel_data: dict, liquidity_data: dict) -> flo
         # We can implement vision processing if `image_base64` is real
         prompt = f"""
 You are SLICK-ORACLE, an elite quantitative risk model for commodity derivatives.
-Your sole function is to assess the probability that WTI Crude Oil (CL-USDC perpetual futures on Hyperliquid) 
+Your sole function is to assess the probability that Brent Crude Oil (xyz:BRENTOIL perpetual futures on Hyperliquid) 
 will experience an upward price shock within the next 4-8 hours based on breaking geopolitical signals.
 
 ## INPUTS
@@ -65,7 +65,7 @@ will experience an upward price shock within the next 4-8 hours based on breakin
 Source: {sentinel_data.get('source')}
 Headline: {sentinel_data.get('headline')}
 
-### Market Microstructure (CL-USDC on Hyperliquid)
+### Market Microstructure (xyz:BRENTOIL on Hyperliquid)
 Available Liquidity (USD): {liquidity_data.get('available_liquidity_usd')}
 Current Funding Rate: {liquidity_data.get('current_funding_rate')}
 Recent Liquidations (USD): {liquidity_data.get('recent_liquidations')}
@@ -113,7 +113,7 @@ async def execute_trade() -> str:
     try:
         # Running the trade via uv run in the hyperliquid-operator folder
         # We use --dry-run for safety during this hackathon implementation unless requested otherwise
-        cmd = ["uv", "run", "hl-op", "trade", "buy", "CL/USDC:USDC", "10", "--dry-run", "--json"]
+        cmd = ["uv", "run", "hl-op", "trade", "buy", "BRENTOIL:USDC", "10", "--dry-run", "--json"]
         result = subprocess.run(cmd, cwd="hyperliquid-operator", capture_output=True, text=True)
         return result.stdout
     except Exception as e:

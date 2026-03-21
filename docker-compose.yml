@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slick-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000" # Expose if external access is needed, or keep internal for local droplet routing
+    env_file:
+      - .env
+    volumes:
+      # Optional: Mount the operator data directory for sqlite persistence across restarts
+      - ./hyperliquid-operator/data:/app/hyperliquid-operator/data
+    networks:
+      - slick-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: slick-frontend
+    restart: unless-stopped
+    ports:
+      - "80:3000" # Bind NextJS dashboard to the standard HTTP port on the host natively
+    depends_on:
+      - backend
+    networks:
+      - slick-net
+
+networks:
+  slick-net:
+    driver: bridge

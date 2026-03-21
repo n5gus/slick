@@ -56,9 +56,29 @@ The core of Slick is a trio of modular Python agents negotiating via FastAPI.
    ```
    *Dashboard available at: `http://localhost:3000/dashboard`*
 
+## Production Deployment (Digital Ocean)
+
+Slick is containerized using multi-stage Docker builds natively orchestrating the FastAPI backend alongside a `standalone` optimized Next.js 14 frontend. 
+
+1. **Clone & Configure:**
+```bash
+git clone https://github.com/algo-traders-club/slick.git
+cd slick
+nano .env # Paste your GEMINI_API_KEY and other credentials
+```
+
+2. **Spin up the Swarm:**
+```bash
+docker compose up --build -d
+```
+
+3. **Accessing:**
+The deployment will automatically expose the institutional dashboard port mapped to port `80` (HTTP). You can access it directly via your Droplet's IPv4 address: `http://<DROPLET_IP>/`.
+
 ## Tech Stack
 * Python 3.12+ (uv-based)
 * FastAPI + Pydantic
 * google-genai
 * algo-traders-club/hyperliquid-operator
 * Next.js 14 (App Router) + Tailwind CSS + Framer Motion
+* Docker Compose

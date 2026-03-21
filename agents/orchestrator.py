@@ -48,15 +48,24 @@ async def process_task(task: A2ATask):
 
 async def execute_trade(action: str) -> str:
     try:
-        # NO --dry-run! Trading actively on chain!
-        cmd = ["uv", "run", "hl-op", "trade", action, "xyz:BRENTOIL", "1"]
-        # Ensure env variables for wallet/secret are passed
+        # Absolute path to virtualenv binary ensure it's found inside container
+        hl_op_bin = "/app/.venv/bin/hl-op"
+        cmd = [hl_op_bin, "trade", action, "xyz:BRENTOIL", "1"]
+        
+        # Hyperliquid Operator expects WALLET_ADDRESS and PRIVATE_KEY
+        # Project variables are HYPERLIQUID_API_WALLET_ADDRESS and HYPERLIQUID_SECRET
         env = os.environ.copy()
+        env["WALLET_ADDRESS"] = os.getenv("HYPERLIQUID_API_WALLET_ADDRESS", "")
+        env["PRIVATE_KEY"] = os.getenv("HYPERLIQUID_SECRET", "") # Or whatever the secret is
+        
+        # Explicit workdir ensure it can find local state files
         result = subprocess.run(cmd, cwd="/app", capture_output=True, text=True, env=env)
+        
         if result.returncode == 0:
             logger.info(f"HL-OP SUCCESS: {result.stdout.strip()}")
         else:
             logger.error(f"HL-OP FAILED: {result.stderr.strip()}")
+            
         return result.stdout
     except Exception as e:
         logger.error(f"Execution failed: {e}")

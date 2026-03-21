@@ -85,48 +85,191 @@ export default function DashboardPage() {
     <div className="min-h-screen flex flex-col bg-bg-primary pb-12">
       <Header />
       
-      <div className="border-b border-border bg-[#05050A] px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[#00ffcc]">
+      <div className="border-b border-border bg-bg-primary px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4 text-accent-cyan">
         <div className="flex items-center gap-6">
           <span className="text-xs font-mono tracking-widest uppercase">
-            MATRIX / <span className="text-white">LIVE TRADING</span>
+            SLICK / <span className="text-text-primary">LIVE OPS</span>
           </span>
           <LiveClock />
         </div>
-        <div className="flex items-center gap-2 border border-[#00ffcc]/30 px-3 py-1 bg-[#00ffcc]/10">
-          <div className="w-2 h-2 rounded-full bg-[#00ffcc] animate-ping" />
-          <span className="text-xs tracking-widest uppercase font-mono">AUTONOMOUS SWARM ONLINE</span>
+        <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
+          <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
+          <span className="text-xs tracking-widest uppercase font-mono">SWARM ACTIVE — BRENTOIL PERPETUALS</span>
         </div>
       </div>
 
       <main className="flex-1 max-w-screen-2xl mx-auto w-full px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
-                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">Mark Price</span>
-                <span className="text-3xl font-mono text-white">${marketInfo.mark_price.toFixed(2)}</span>
-            </div>
-            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
-                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">BB Upper (1σ)</span>
-                <span className="text-3xl font-mono text-white">${marketInfo.bollinger_upper.toFixed(2)}</span>
-            </div>
-            <div className="p-6 border border-[#2A2A35] bg-[#0A0A10] rounded-none">
-                <span className="text-xs tracking-widest text-[#00ffcc]/70 uppercase block mb-1">BB Lower (1σ)</span>
-                <span className="text-3xl font-mono text-white">${marketInfo.bollinger_lower.toFixed(2)}</span>
-            </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-positive rounded-none">
+            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">Mark Price</span>
+            <span className="text-3xl font-mono text-text-primary">
+              ${marketInfo.mark_price.toFixed(2)}
+            </span>
+            <span className="text-[10px] font-mono text-text-muted mt-2 block">xyz:BRENTOIL PERP</span>
+          </div>
+          <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-accent-cyan rounded-none">
+            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">BB Upper Band (1σ)</span>
+            <span className="text-3xl font-mono text-text-primary">
+              ${marketInfo.bollinger_upper.toFixed(2)}
+            </span>
+            <span className="text-[10px] font-mono text-text-muted mt-2 block">SHORT SIGNAL ABOVE</span>
+          </div>
+          <div className="p-6 border border-border bg-bg-surface border-l-2 border-l-negative rounded-none">
+            <span className="text-[10px] tracking-widest text-text-muted uppercase block mb-2">BB Lower Band (1σ)</span>
+            <span className="text-3xl font-mono text-text-primary">
+              ${marketInfo.bollinger_lower.toFixed(2)}
+            </span>
+            <span className="text-[10px] font-mono text-text-muted mt-2 block">LONG SIGNAL BELOW</span>
+          </div>
+        </div>
+
+        {/* Conviction Score Bar */}
+        <div className="p-6 border border-border bg-bg-surface mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-xs tracking-widest text-text-muted uppercase">
+              Gemini Conviction Score
+            </span>
+            <span className="font-mono text-lg text-text-primary">
+              {agentStatus.orchestrator.lastScore === 'HOLD' ? '—' : agentStatus.orchestrator.lastScore}
+            </span>
+          </div>
+          
+          {/* Score bar: 0.0 to 1.0 */}
+          <div className="w-full h-3 bg-bg-elevated border border-border overflow-hidden mb-3">
+            <div
+              className="h-full transition-all duration-700"
+              style={{
+                width: agentStatus.orchestrator.lastScore === 'HOLD' 
+                  ? '0%' 
+                  : Number.isNaN(parseFloat(agentStatus.orchestrator.lastScore || '0')) ? '0%' : `${parseFloat(agentStatus.orchestrator.lastScore || '0') * 100}%`,
+                background: 'linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-magenta) 100%)',
+                boxShadow: '0 0 12px rgba(0, 243, 255, 0.6)'
+              }}
+            />
+          </div>
+          
+          {/* Threshold markers */}
+          <div className="relative w-full flex justify-between text-[10px] font-mono text-text-muted">
+            <span>0.0 NO TRADE</span>
+            <span className="absolute left-[85%] -translate-x-1/2 text-positive">0.85 THRESHOLD</span>
+            <span>1.0 EXECUTE</span>
+          </div>
+          
+          {/* Threshold line */}
+          <div className="relative w-full h-px mt-1">
+            <div 
+              className="absolute top-0 w-px h-3 bg-positive opacity-60"
+              style={{ left: '85%' }}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mb-8">
-          <div className="xl:col-span-4 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Swarm Telemetry</span>
-            <AgentStatusBadge agent="Sentinel" status={agentStatus.sentinel.status} detail={agentStatus.sentinel.lastHeadline} />
-            <AgentStatusBadge agent="Quant" status={agentStatus.quant.status} />
-            <AgentStatusBadge agent="Orchestrator" status={agentStatus.orchestrator.status} detail={`Signal: ${agentStatus.orchestrator.lastScore}`} />
+          
+          {/* Left: Agent Status */}
+          <div className="xl:col-span-4 flex flex-col gap-4">
+            <span className="text-[10px] tracking-widest text-text-muted uppercase block border-b border-border pb-2">
+              Agent Status
+            </span>
+            <AgentStatusBadge 
+              agent="Sentinel" 
+              status={agentStatus.sentinel.status} 
+              detail={agentStatus.sentinel.lastHeadline} 
+            />
+            <AgentStatusBadge 
+              agent="Quant" 
+              status={agentStatus.quant.status}
+              detail="Polling xyz:BRENTOIL — 5s interval"
+            />
+            <AgentStatusBadge 
+              agent="Orchestrator" 
+              status={agentStatus.orchestrator.status} 
+              detail={`Signal: ${agentStatus.orchestrator.lastScore}`}
+            />
           </div>
 
-          <div className="xl:col-span-8 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Terminal Execution Log</span>
-            <TradeFeed logs={logs} />
+          {/* Right: A2A Pipeline Visualization */}
+          <div className="xl:col-span-8 flex flex-col gap-4">
+            <span className="text-[10px] tracking-widest text-text-muted uppercase block border-b border-border pb-2">
+              A2A Signal Pipeline
+            </span>
+            
+            <div className="border border-border bg-bg-surface p-6 flex flex-col gap-4">
+              
+              {/* Pipeline steps */}
+              {[
+                { 
+                  step: '01', 
+                  from: 'Antigravity Browser', 
+                  to: 'Sentinel',
+                  desc: 'Visual scrape — Reuters / Al Jazeera / X feeds',
+                  color: 'var(--accent-cyan)'
+                },
+                { 
+                  step: '02', 
+                  from: 'Sentinel', 
+                  to: 'Orchestrator',
+                  desc: 'A2A POST /orchestrator/tasks/send — multimodal artifact',
+                  color: 'var(--accent-cyan)'
+                },
+                { 
+                  step: '03', 
+                  from: 'Orchestrator', 
+                  to: 'Quant',
+                  desc: 'A2A GET /quant/liquidity — order book state',
+                  color: 'var(--accent-cyan)'
+                },
+                { 
+                  step: '04', 
+                  from: 'Orchestrator', 
+                  to: 'Gemini 1.5 Pro',
+                  desc: 'Multimodal sentiment scoring — returns conviction score',
+                  color: 'var(--accent-magenta)'
+                },
+                { 
+                  step: '05', 
+                  from: 'Orchestrator', 
+                  to: 'Hyperliquid',
+                  desc: 'hl-op trade buy xyz:BRENTOIL — if score > 0.85',
+                  color: agentStatus.orchestrator.status === 'EXECUTING' 
+                    ? 'var(--positive)' 
+                    : 'var(--text-muted)'
+                },
+              ].map((node) => (
+                <div key={node.step} className="flex items-start gap-4">
+                  <span 
+                    className="text-[10px] font-mono mt-0.5 shrink-0 w-6"
+                    style={{ color: node.color }}
+                  >
+                    {node.step}
+                  </span>
+                  <div className="flex-1 border-l border-border pl-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-mono text-text-primary">{node.from}</span>
+                      <span className="text-text-muted text-xs">→</span>
+                      <span className="text-xs font-mono" style={{ color: node.color }}>{node.to}</span>
+                    </div>
+                    <p className="text-[10px] text-text-muted tracking-wide">{node.desc}</p>
+                  </div>
+                  <div 
+                    className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 animate-pulse"
+                    style={{ backgroundColor: node.color }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
+        {/* Full-width Trade Feed at bottom */}
+        <div>
+          <span className="text-[10px] tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">
+            Signal & Execution Log — Last 50 Ticks
+          </span>
+          <TradeFeed logs={logs} />
+        </div>
+
       </main>
     </div>
   );

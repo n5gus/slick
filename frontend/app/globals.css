@@ -9,6 +9,8 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-accent: var(--accent);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-magenta: var(--accent-magenta);
   --color-positive: var(--positive);
   --color-negative: var(--negative);
   --color-warning: var(--warning);

@@ -19,6 +19,7 @@ async def background_trader():
     current_position = 0  # 1 for Long, -1 for Short, 0 for Flat
 
     while True:
+        logger.info("TRADER LOOP HEARTBEAT")
         try:
             liq = await get_liquidity()
             # Status check for logs

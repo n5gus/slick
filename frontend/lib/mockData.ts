@@ -22,7 +22,7 @@ export const MOCK_AGENT_STATUS = {
 };
 
 export const MOCK_MARKET = {
-    symbol: "CL-USDC PERP",
+    symbol: "xyz:BRENTOIL",
     funding_rate: "0.0050%",
     liquidity_available: 150000.00,
     liquidity_max: 500000.00,

@@ -18,7 +18,7 @@ export default function LandingPage() {
   };
   const agents = [
     { name: 'Sentinel', role: 'Navigates Reuters and Al Jazeera in real-time. Captures breaking headlines and screenshots. Bypasses bot protection. Fires multimodal artifacts upstream.', status: 'MONITORING' },
-    { name: 'Quant', role: 'Polls the CL-USDC order book depth, funding rates, and liquidation cascades via hyperliquid-operator. Returns structured JSON on demand.', status: 'LIVE' },
+    { name: 'Quant', role: 'Polls the BRENTOIL order book depth, funding rates, and liquidation cascades via hyperliquid-operator. Returns structured JSON on demand.', status: 'LIVE' },
     { name: 'Orchestrator', role: 'Receives the news artifact. Queries the Quant. Feeds both to Gemini 3.1 Pro for conviction scoring. Fires the trade if score exceeds 0.85.', status: 'ARMED' },
   ];
 
@@ -58,13 +58,13 @@ export default function LandingPage() {
 
         {/* Your hero content sits above */}
         <div className="relative z-10 flex flex-col justify-center items-start px-8 max-w-5xl mx-auto w-full">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — CL-USDC PERPETUALS</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — BRENTOIL PERPETUALS</span>
             <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
                 The News Breaks.<br />
                 We're Already In.
             </h1>
             <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
-                Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged CL-USDC positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
+                Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged BRENTOIL positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
             </p>
             
             <div className="flex items-center gap-4">

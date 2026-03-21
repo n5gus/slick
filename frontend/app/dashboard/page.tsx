@@ -65,7 +65,7 @@ export default function DashboardPage() {
 
           {/* Right Column: Market Data */}
           <div className="xl:col-span-8 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">CL-USDC Market State</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">xyz:BRENTOIL Market State</span>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">

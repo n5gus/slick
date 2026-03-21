@@ -30,9 +30,9 @@ async def process_task(task: A2ATask):
     sentinel_data = task.data
 
     # Query Quant Agent
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient() as http_client:
         try:
-            quant_resp = await client.get(f"{settings.QUANT_URL}/liquidity")
+            quant_resp = await http_client.get(f"{settings.QUANT_URL}/liquidity")
             quant_resp.raise_for_status()
             liquidity_data = quant_resp.json()
             logger.info(f"Quant liquidity fetched: {liquidity_data}")
@@ -55,15 +55,43 @@ async def evaluate_with_gemini(sentinel_data: dict, liquidity_data: dict) -> flo
     try:
         # We can implement vision processing if `image_base64` is real
         prompt = f"""
-        You are an elite quantitative analyst AI determining the probability of an oil surge based on breaking Middle East geopolitical news.
-        
-        Headlines: {sentinel_data.get('headline')}
-        Market Liquidity: {liquidity_data.get('available_liquidity_usd')} USD
-        Current Funding Rate: {liquidity_data.get('current_funding_rate')}
-        
-        Analyze the severity. A score of 1.0 means imminent war/supply shock and 100% certainty oil (CL-USDC) goes up. 
-        A score of 0.0 means no impact. Return ONLY a JSON object: {{"score": 0.00}}
-        """
+You are SLICK-ORACLE, an elite quantitative risk model for commodity derivatives.
+Your sole function is to assess the probability that WTI Crude Oil (CL-USDC perpetual futures on Hyperliquid) 
+will experience an upward price shock within the next 4-8 hours based on breaking geopolitical signals.
+
+## INPUTS
+
+### Geopolitical Signal
+Source: {sentinel_data.get('source')}
+Headline: {sentinel_data.get('headline')}
+
+### Market Microstructure (CL-USDC on Hyperliquid)
+Available Liquidity (USD): {liquidity_data.get('available_liquidity_usd')}
+Current Funding Rate: {liquidity_data.get('current_funding_rate')}
+Recent Liquidations (USD): {liquidity_data.get('recent_liquidations')}
+
+## SCORING RUBRIC
+
+Score 0.90 – 1.00: Imminent supply shock. Direct military action targeting oil infrastructure, 
+  Strait of Hormuz closure threat, or major state-level escalation. Trade immediately.
+
+Score 0.70 – 0.89: High probability disruption. Confirmed airstrike near oil fields, 
+  OPEC emergency meeting, or Iranian naval activity. Strong signal.
+
+Score 0.50 – 0.69: Moderate risk. Diplomatic breakdown, sanctions announcement, 
+  or proxy conflict escalation. Monitor closely.
+
+Score 0.00 – 0.49: Noise. Political rhetoric, unconfirmed reports, or unrelated regional news.
+
+## INSTRUCTIONS
+1. Analyze the headline against the rubric above.
+2. Factor in funding rate: a positive funding rate > 0.01 suggests market is already long — reduce score by 0.05.
+3. Factor in liquidity: if available_liquidity_usd < 5000, reduce score by 0.10 (thin market = dangerous slippage).
+4. Return ONLY a raw JSON object with no explanation, no markdown, no preamble.
+
+## OUTPUT FORMAT
+{{"score": 0.00, "rationale": "one sentence max"}}
+"""
         # Call Google Gen AI client directly
         response = client.models.generate_content(
             model="gemini-1.5-pro",
@@ -72,7 +100,10 @@ async def evaluate_with_gemini(sentinel_data: dict, liquidity_data: dict) -> flo
         # Parse score
         text = response.text.strip().replace("```json", "").replace("```", "")
         result = json.loads(text)
-        return float(result.get("score", 0.0))
+        score = float(result.get("score", 0.0))
+        rationale = result.get("rationale", "")
+        logger.info(f"Gemini score: {score} | Rationale: {rationale}")
+        return score
     except Exception as e:
         logger.error(f"Gemini API Error: {e}")
         return 0.0

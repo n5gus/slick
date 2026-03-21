@@ -1,0 +1,22 @@
+{
+  "name": "SLICK Orchestrator",
+  "description": "Master execution node for Project Slick. Receives geopolitical news artifacts from the Sentinel, queries the Quant for CL-USDC order book state, and uses Gemini to score trade conviction before firing orders on Hyperliquid.",
+  "version": "1.0.0",
+  "url": "http://localhost:8000",
+  "capabilities": {
+    "streaming": false,
+    "multimodal_input": true
+  },
+  "skills": [
+    {
+      "id": "analyze_geopolitics",
+      "name": "Analyze Geopolitical Event",
+      "description": "Accepts a news headline and screenshot artifact, queries on-chain liquidity, runs Gemini sentiment scoring, and executes a leveraged long on CL-USDC if conviction threshold is met.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "endpoints": {
+    "tasks": "/orchestrator/tasks/send"
+  }
+}

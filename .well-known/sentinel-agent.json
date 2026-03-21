@@ -1,0 +1,18 @@
+{
+  "name": "SLICK Sentinel",
+  "description": "Macro news acquisition node. Uses the Antigravity Browser Agent to visually scrape breaking Middle East geopolitical headlines from Reuters, Al Jazeera, and X. Pushes structured news artifacts to the Orchestrator via A2A.",
+  "version": "1.0.0",
+  "url": "http://localhost:8000",
+  "skills": [
+    {
+      "id": "trigger_news_alert",
+      "name": "Trigger News Alert",
+      "description": "Accepts a source URL, headline, and base64 screenshot from the browser agent and forwards to the Orchestrator.",
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "endpoints": {
+    "trigger": "/sentinel/trigger"
+  }
+}

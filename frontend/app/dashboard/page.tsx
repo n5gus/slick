@@ -31,13 +31,13 @@ export default function DashboardPage() {
       <div className="border-b border-border bg-bg-surface px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-6">
           <span className="text-xs font-mono tracking-widest uppercase text-text-muted">
-            SLICK / <span className="text-text-primary">DASHBOARD</span>
+            SLICK / <span className="text-text-primary">LIVE OPS</span>
           </span>
           <LiveClock />
         </div>
         <div className="flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated">
           <div className="w-2 h-2 rounded-full bg-positive animate-pulse" />
-          <span className="text-xs tracking-widest text-positive uppercase font-mono">ALL SYSTEMS NOMINAL</span>
+          <span className="text-xs tracking-widest text-positive uppercase font-mono">SWARM ACTIVE — MONITORING</span>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export default function DashboardPage() {
           
           {/* Left Column: Agents */}
           <div className="xl:col-span-4 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Swarm Telemetry</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Agent Status</span>
             <AgentStatusBadge 
                 agent="Sentinel" 
                 status={MOCK_AGENT_STATUS.sentinel.status} 
@@ -65,7 +65,7 @@ export default function DashboardPage() {
 
           {/* Right Column: Market Data */}
           <div className="xl:col-span-8 flex flex-col gap-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">Microstructure & Liquidity</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-2 block border-b border-border pb-2">CL-USDC Market State</span>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-6 border border-border bg-bg-surface flex flex-col justify-between">
@@ -102,7 +102,7 @@ export default function DashboardPage() {
 
         {/* Bottom Trade Feed */}
         <div className="mt-8">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">Execution Log</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block border-b border-border pb-2">Signal & Execution Log</span>
             <TradeFeed trades={MOCK_TRADES} />
         </div>
       </main>

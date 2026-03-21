@@ -17,9 +17,9 @@ export default function LandingPage() {
     }
   };
   const agents = [
-    { name: 'Sentinel', role: 'Visual news scraper via Antigravity Browser Engine', status: 'MONITORING' },
-    { name: 'Quant', role: 'Dominates Hyperliquid chart DOM & order book micro-structure', status: 'LIVE' },
-    { name: 'Orchestrator', role: 'Gemini 3.1 Pro continuous conviction scoring & CLI execution hook', status: 'ARMED' },
+    { name: 'Sentinel', role: 'Navigates Reuters and Al Jazeera in real-time. Captures breaking headlines and screenshots. Bypasses bot protection. Fires multimodal artifacts upstream.', status: 'MONITORING' },
+    { name: 'Quant', role: 'Polls the CL-USDC order book depth, funding rates, and liquidation cascades via hyperliquid-operator. Returns structured JSON on demand.', status: 'LIVE' },
+    { name: 'Orchestrator', role: 'Receives the news artifact. Queries the Quant. Feeds both to Gemini 3.1 Pro for conviction scoring. Fires the trade if score exceeds 0.85.', status: 'ARMED' },
   ];
 
   const flowSteps = ['[Browser Agent]', '→', '[Sentinel]', '→', '[Orchestrator]', '→', '[Quant]', '→', '[Gemini]', '→', '[Hyperliquid]'];
@@ -58,13 +58,13 @@ export default function LandingPage() {
 
         {/* Your hero content sits above */}
         <div className="relative z-10 flex flex-col justify-center items-start px-8 max-w-5xl mx-auto w-full">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEARBULL CAPITAL</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-4 block [text-shadow:var(--glow-text)]">MANBEAR BULL CAPITAL — CL-USDC PERPETUALS</span>
             <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight mb-6">
-                Geopolitical Alpha.<br />
-                On-Chain Execution.
+                The News Breaks.<br />
+                We're Already In.
             </h1>
             <p className="text-text-secondary max-w-lg mb-12 text-sm leading-relaxed">
-                An autonomous agent swarm trading Brent Crude Oil perpetuals on Hyperliquid — before traditional institutions open their terminals.
+                Three specialized AI agents monitor live Middle East crisis feeds, score geopolitical conviction with Gemini, and execute leveraged CL-USDC positions on Hyperliquid — autonomously, 24/7, before traditional desks boot up on Monday open.
             </p>
             
             <div className="flex items-center gap-4">
@@ -95,7 +95,7 @@ export default function LandingPage() {
 
           {/* Flow Diagram */}
           <div className="text-center w-full overflow-hidden border border-border bg-bg-primary p-6">
-            <span className="text-xs tracking-widest text-text-muted uppercase mb-8 block text-left">Execution Flow</span>
+            <span className="text-xs tracking-widest text-text-muted uppercase mb-8 block text-left">A2A Signal Pipeline</span>
             <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-mono tracking-widest uppercase text-text-primary">
               {flowSteps.map((step, i) => (
                 <motion.div
@@ -116,7 +116,7 @@ export default function LandingPage() {
 
       <footer className="py-8 px-8 border-t border-border bg-bg-primary flex flex-col md:flex-row justify-between items-center text-xs tracking-widest uppercase text-text-muted">
         <span>SLICK by ManBearBull Capital</span>
-        <span>Built for Google Gemini Hackathon 2026</span>
+        <span>Google Gemini Hackathon — Miami 2026</span>
       </footer>
     </div>
   );

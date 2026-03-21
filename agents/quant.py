@@ -32,6 +32,7 @@ class LiquidityResponse(BaseModel):
     win_rate: float
     total_trades: int
     wallet_age_days: int
+    total_pnl: float
     open_positions: List[PositionInfo]
 
 @router.get("/liquidity", response_model=LiquidityResponse)
@@ -129,6 +130,7 @@ async def get_liquidity():
             closed_trades = [f for f in fills if float(f.get("closedPnl", 0)) != 0]
             win_count = sum(1 for f in closed_trades if float(f.get("closedPnl", 0)) > 0)
             win_rate = (win_count / len(closed_trades) * 100) if closed_trades else 0.0
+            total_pnl = sum(float(f.get("closedPnl", 0)) for f in fills)
             
             # 6. Wallet age (since first fill)
             if fills:
@@ -153,6 +155,7 @@ async def get_liquidity():
                 win_rate=win_rate,
                 total_trades=total_trades,
                 wallet_age_days=wallet_age_days,
+                total_pnl=total_pnl,
                 open_positions=open_positions
             )
     except Exception as e:
@@ -173,5 +176,6 @@ async def get_liquidity():
             win_rate=0.0,
             total_trades=0,
             wallet_age_days=0,
+            total_pnl=0.0,
             open_positions=[]
         )

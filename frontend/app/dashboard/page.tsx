@@ -33,6 +33,7 @@ export default function DashboardPage() {
     win_rate: 0,
     total_trades: 0,
     wallet_age_days: 0,
+    total_pnl: 0,
     open_positions: [] as any[]
   });
 
@@ -71,6 +72,7 @@ export default function DashboardPage() {
                     win_rate: data.win_rate,
                     total_trades: data.total_trades,
                     wallet_age_days: data.wallet_age_days,
+                    total_pnl: data.total_pnl,
                     open_positions: data.open_positions
                 });
                 
@@ -123,7 +125,9 @@ export default function DashboardPage() {
             className="hidden lg:flex items-center gap-2 border border-border px-3 py-1 bg-bg-elevated hover:border-accent-magenta transition-colors group"
           >
             <span className="text-xs tracking-widest uppercase font-mono text-text-secondary group-hover:text-accent-magenta transition-colors">TRADER: 0x517C...56Cf</span>
-            <span className="text-xs font-mono text-positive">+$0.81</span>
+            <span className={`text-xs font-mono ${marketInfo.total_pnl >= 0 ? 'text-positive' : 'text-negative'}`}>
+              {marketInfo.total_pnl >= 0 ? '+' : ''}${marketInfo.total_pnl.toFixed(2)}
+            </span>
           </a>
         </div>
       </div>

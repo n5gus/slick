@@ -3,12 +3,30 @@
 import { Header } from '@/components/layout/Header';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
 export default function LandingPage() {
   const [isMuted, setIsMuted] = useState(true);
+  const [pnl, setPnl] = useState(0.81);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const fetchPnl = async () => {
+      try {
+        const res = await fetch('/api/quant/liquidity');
+        const data = await res.json();
+        if (data && typeof data.total_pnl === 'number') {
+          setPnl(data.total_pnl);
+        }
+      } catch (err) {
+        console.error("Failed to fetch PnL:", err);
+      }
+    };
+    fetchPnl();
+    const interval = setInterval(fetchPnl, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -217,7 +235,9 @@ export default function LandingPage() {
           <div className="flex flex-col gap-4 min-w-[300px]">
             <div className="p-4 border border-border bg-bg-primary flex flex-col gap-2">
               <span className="text-[11px] tracking-widest text-text-secondary uppercase font-mono">Live PnL</span>
-              <span className="text-2xl font-mono text-positive">+$0.81 USD</span>
+              <span className={`text-2xl font-mono ${pnl >= 0 ? 'text-positive' : 'text-negative'}`}>
+                {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)} USD
+              </span>
             </div>
             <a 
               href="https://app.hyperliquid.xyz/tradeHistory/0x517CFeae25Ac7D49aD70037b253B9f24C7E556Cf" 

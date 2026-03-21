@@ -50,9 +50,9 @@ async def execute_trade(action: str) -> str:
     try:
         # NO --dry-run! Trading actively on chain!
         cmd = ["uv", "run", "hl-op", "trade", action, "xyz:BRENTOIL", "1"]
-        # Ensure env variables are accessible
+        # Ensure env variables for wallet/secret are passed
         env = os.environ.copy()
-        result = subprocess.run(cmd, cwd="/var/www/slick", capture_output=True, text=True, env=env)
+        result = subprocess.run(cmd, cwd="/app", capture_output=True, text=True, env=env)
         return result.stdout
     except Exception as e:
         logger.error(f"Execution failed: {e}")

@@ -1,18 +1,11 @@
 import logging
 import asyncpg
-from supabase import create_client, Client
 from contextlib import asynccontextmanager
 from config import settings
 
 logger = logging.getLogger(__name__)
 
-# Standard Supabase Client (REST)
-supabase_client: Client | None = None
-
-if settings.SUPABASE_URL and settings.SUPABASE_KEY:
-    supabase_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
-
-# Connection pool for TimescaleDB raw SQL queries
+# Connection pool for Local TimescaleDB queries
 _db_pool: asyncpg.Pool = None
 
 async def init_db_pool():

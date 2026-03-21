@@ -6,10 +6,8 @@ class Settings(BaseSettings):
     HYPERLIQUID_WALLET: str = ""
     HYPERLIQUID_SECRET: str = ""
 
-    # Supabase & TimescaleDB configuration
-    SUPABASE_URL: str = ""
-    SUPABASE_KEY: str = ""
-    DATABASE_URL: str = ""
+    # Local TimescaleDB configuration
+    DATABASE_URL: str = "postgresql://postgres:postgres@timescale:5432/slick_ts"
 
     # Endpoints if we decouple routing:
     ORCHESTRATOR_URL: str = "http://localhost:8000/orchestrator"
